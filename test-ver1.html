@@ -267,13 +267,18 @@
                 width: 100%;
             }
             .caculateArea{
-                height: 250px;
+                height: fit-content;
                 padding-bottom: env(safe-area-inset-bottom); /* 加上安全區域的底部內邊距 */
                 padding-bottom: constant(safe-area-inset-bottom);
             }
             .caculate{
                 flex-wrap: wrap;
                 
+            }
+        }
+        @media (max-width: 540px) {
+            .caculateArea{
+                height: 300px;
             }
         }
 
