@@ -268,9 +268,12 @@
             }
             .caculateArea{
                 height: 200px;
+                padding-bottom: env(safe-area-inset-bottom); /* 加上安全區域的底部內邊距 */
+                padding-bottom: constant(safe-area-inset-bottom);
             }
             .caculate{
                 flex-wrap: wrap;
+                
             }
         }
 
