@@ -107,8 +107,15 @@
             cursor: pointer;
             padding-top: 2px;            
         }
-        
-        .item img{
+        .burst{
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 24px;
+            height: 24px;
+            z-index: 1;
+        }
+        .charimg{
             width: 50px; 
             height: 64px;             
             object-position: top;
@@ -127,6 +134,7 @@
             width: 100%;
             height: 100%;
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 0, 0, 0));
+            z-index: -2;
         }
         .itemhover:hover{
             background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 0, 0, 0.2));
@@ -202,6 +210,7 @@
             margin: 0;
             padding-bottom: env(safe-area-inset-bottom); /* 加上安全區域的底部內邊距 */
             padding-bottom: constant(safe-area-inset-bottom);
+            z-index: 2;
         }
         .note{
             padding: 0;
@@ -221,7 +230,6 @@
             left: 0;
             width: 100%;
             height: 100%;
-            padding: 0px;
         }
         .cacuplace{
             width: 72px;
@@ -273,7 +281,7 @@
                 padding-bottom: constant(safe-area-inset-bottom);
             }
             .caculate{
-                flex-wrap: wrap;
+                flex-wrap: wrap; 
                 align-content: flex-start;
             }
             .blank{
@@ -438,44 +446,44 @@
 
     //角色資訊：企業(後綴pvp為常用角), 英文, 中文, 編號, 速度級
     var character = [
-        ["Elysionpvp", "Helm", "海倫*", "352", "Helm"],
-        ["Elysionpvp", "Maiden", "梅登", "181", "Noir"],
-        ["Elysionpvp", "Maiden: Ice Rose", "冰梅登", "183", "Maiden: Ice Rose"],
-        ["Elysionpvp", "Privaty", "普麗瓦蒂","170","Blanc"],
-        ["Elysion", "Emma", "艾瑪","090","Crown"],
-        ["Elysion", "Signal", "西格娜", "022","Liter"],
-        ["Elysion", "Poli", "波莉", "030","Naga"],
-        ["Missilispvp", "Centi", "桑迪", "080", "Centi"],
-        ["Missilispvp", "Jackal", "豺狼", "111", "Jackal"],
-        ["Missilispvp", "Drake", "德雷克*", "101", "Drake"],
-        ["Missilispvp", "Pepper", "佩珀", "131", "Noir"],
-        ["Missilispvp", "Laplace", "拉普拉斯*", "100", "Laplace"],
-        ["Missilispvp", "Anne: Miracle Fairy", "聖誕安妮", "121", "Noise"],
-        ["Missilispvp", "Tia", "蒂亞", "451", "Noise"],
-        ["Missilispvp", "Trina", "特蕾娜", "412", "Trina"],
-        ["Missilis","Maxwell","麥斯威爾","102","Maxwell"],
-        ["Missilis", "Liter", "麗塔", "082", "Liter"],
-        ["Missilis", "Naga", "娜嘉", "450", "Naga"],
-        ["Tetrapvp", "Anis", "SR阿妮斯", "012", "Anis"],
-        ["Tetrapvp", "Blanc", "布蘭兒", "270", "Blanc"],
-        ["Tetrapvp", "Rumani", "魯瑪妮", "240", "Blanc"],
-        ["Tetrapvp", "Viper", "毒蛇", "112", "Noir"],
-        ["Tetrapvp", "Sugar", "舒格", "140", "Noir"],
-        ["Tetrapvp", "Noir", "諾亞爾", "271", "Noir"],
-        ["Tetrapvp", "Soda: Twinkling Bunny", "索達兔", "314", "Noir"],
-        ["Tetrapvp", "Noise", "諾伊斯", "430", "Noise"],
-        ["Tetrapvp", "Biscuit", "餅乾", "381", "Noise"],
-        ["Tetrapvp", "Bay", "貝伊", "550", "Noise"],
-        ["Tetrapvp", "Anis: Sparkling Summer", "泳阿尼斯", "015", "Anis: Sparkling Summer"],
-        ["Tetrapvp", "Moran", "牡丹", "281", "Moran"],
-        ["Pilgrimpvp", "Noah", "諾雅", "232", "Noah"],
-        ["Pilgrimpvp", "Rapunzel", "長髮公主", "221", "Rapunzel"],
-        ["Pilgrimpvp", "Scarlet", "紅蓮", "222", "Scarlet"],
-        ["Pilgrimpvp", "Scarlet: Black Shadow", "暗影紅蓮", "225", "Scarlet: Black Shadow"],
-        ["Pilgrimpvp", "Red Hood", "小紅帽", "470", "Red Hood"],
-        ["Pilgrimpvp", "Cinderella", "灰姑娘", "511", "Cinderella"],
-        ["Pilgrim", "Crown", "皇冠", "330", "Crown"],
-        ["Abnormalpvp", "Emilia", "愛蜜莉雅", "821", "Emilia"]
+        ["Elysionpvp", "Helm", "海倫*", "352", "Helm","03"],
+        ["Elysionpvp", "Maiden", "梅登", "181", "Noir","03"],
+        ["Elysionpvp", "Maiden: Ice Rose", "冰梅登", "183", "Maiden: Ice Rose","03"],
+        ["Elysionpvp", "Privaty", "普麗瓦蒂","170","Blanc","03"],
+        ["Elysion", "Emma", "艾瑪","090","Crown","01"],
+        ["Elysion", "Signal", "西格娜", "022","Liter","03"],
+        ["Elysion", "Poli", "波莉", "030","Naga","02"],
+        ["Missilispvp", "Centi", "桑迪", "080", "Centi","02"],
+        ["Missilispvp", "Jackal", "豺狼", "111", "Jackal","01"],
+        ["Missilispvp", "Drake", "德雷克*", "101", "Drake","03"],
+        ["Missilispvp", "Pepper", "佩珀", "131", "Noir","01"],
+        ["Missilispvp", "Laplace", "拉普拉斯*", "100", "Laplace","03"],
+        ["Missilispvp", "Anne: Miracle Fairy", "聖誕安妮", "121", "Noise","02"],
+        ["Missilispvp", "Tia", "蒂亞", "451", "Noise","01"],
+        ["Missilispvp", "Trina", "特蕾娜", "412", "Trina","02"],
+        ["Missilis","Maxwell","麥斯威爾","102","Maxwell","03"],
+        ["Missilis", "Liter", "麗塔", "082", "Liter","01"],
+        ["Missilis", "Naga", "娜嘉", "450", "Naga","02"],
+        ["Tetrapvp", "Anis", "SR阿妮斯", "012", "Anis","02"],
+        ["Tetrapvp", "Blanc", "布蘭兒", "270", "Blanc","02"],
+        ["Tetrapvp", "Rumani", "魯瑪妮", "240", "Blanc","01"],
+        ["Tetrapvp", "Viper", "毒蛇", "112", "Noir","02"],
+        ["Tetrapvp", "Sugar", "舒格", "140", "Noir","03"],
+        ["Tetrapvp", "Noir", "諾亞爾", "271", "Noir","03"],
+        ["Tetrapvp", "Soda: Twinkling Bunny", "索達兔", "314", "Noir","03"],
+        ["Tetrapvp", "Noise", "諾伊斯", "430", "Noise","01"],
+        ["Tetrapvp", "Biscuit", "餅乾", "381", "Noise","02"],
+        ["Tetrapvp", "Bay", "貝伊", "550", "Noise","02"],
+        ["Tetrapvp", "Anis: Sparkling Summer", "泳阿尼斯", "015", "Anis: Sparkling Summer","03"],
+        ["Tetrapvp", "Moran", "牡丹", "281", "Moran","01"],
+        ["Pilgrimpvp", "Noah", "諾雅", "232", "Noah","02"],
+        ["Pilgrimpvp", "Rapunzel", "長髮公主", "221", "Rapunzel","01"],
+        ["Pilgrimpvp", "Scarlet", "紅蓮", "222", "Scarlet","03"],
+        ["Pilgrimpvp", "Scarlet: Black Shadow", "暗影紅蓮", "225", "Scarlet: Black Shadow","03"],
+        ["Pilgrimpvp", "Red Hood", "小紅帽", "470", "Red Hood", "all"],
+        ["Pilgrimpvp", "Cinderella", "灰姑娘", "511", "Cinderella","03"],
+        ["Pilgrim", "Crown", "皇冠", "330", "Crown","02"],
+        ["Abnormalpvp", "Emilia", "愛蜜莉雅", "821", "Emilia","03"]
         
     ];
     //優化圖片載入時間點
@@ -570,7 +578,8 @@
             item.innerHTML = `
             <div class="itemhover">
             </div>
-            <img data-group=${character[i][0]} data-src=${photosrc} alt="Delayed Image">
+            <img class="burst" src="https://sg-tools-cdn.blablalink.com/icon/atlas_common_class/icn_burst_${character[i][5]}.webp">
+            <img class="charimg" data-group=${character[i][0]} data-src=${photosrc} alt="Delayed Image">
             <p class=charactername>${charactername}</p>
             `;
 
