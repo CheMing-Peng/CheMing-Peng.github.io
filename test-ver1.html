@@ -849,12 +849,15 @@
         preserve.appendChild(clonedItem);
         });
 
-        // 複製 id="result" 的元素
-        const resultElement = caculate.querySelector('.burstResult'); // 從 caculate 中選取 #result
-        if (resultElement) {
-        const clonedResult = resultElement.cloneNode(true);
-        preserve.appendChild(clonedResult);
-        }
+         //判斷是否有選入角色
+        if (items.length > 0) {
+            const resultElement = caculate.querySelector('.burstResult'); // 從 caculate 中選取 #result
+            // 複製 id="result" 的元素
+            if (resultElement) {
+                const clonedResult = resultElement.cloneNode(true);
+                preserve.appendChild(clonedResult);
+            };
+        };
     });
     });
     
