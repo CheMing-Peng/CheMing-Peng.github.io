@@ -259,7 +259,8 @@
         }
         .result{
             display: flex;
-            align-items:center;
+            flex-direction: column;
+            align-items:left;
             box-sizing: border-box;
             width:100px;
             height: 100px;
@@ -269,7 +270,15 @@
             color: #585858;
             border-radius:5px;
             font-family: Arial, Helvetica, sans-serif;
+        }
+        .burstResult{                        
             font-weight: 900;
+            margin: 0;
+            padding: 0;
+            margin-top: 4px;
+        }
+        .previousResult{
+            font-size: 12px;
         }
         .twoRL{
             background-color: #ffabab;
@@ -285,6 +294,24 @@
         }
         .fourRL{
             background-color: #cdaeff;
+        }
+        #preserve{
+            position: absolute;
+            display: flex;
+            align-items: center;
+            top: -64px;
+            left: 0;
+            height: fit-content;
+            width: 100%;
+            padding: 0;
+            padding-left: 12px;
+            background-color: rgba(255, 255, 255, 0.5);
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
+        }
+        #preserve .burstResult{
+            padding-left: 12px;
+
         }
 
         @media (max-width: 760px) {
@@ -457,7 +484,14 @@
         <div id="result" class="result">
             <p style="color: #b4b4b4;">點選角色開始計算</p>
         </div>
-    </div>    
+        <div id="preserveBtn">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 8C2 5.23858 4.23858 3 7 3H17C19.7614 3 22 5.23858 22 8V14C22 16.7614 19.7614 19 17 19C16.4477 19 16 18.5523 16 18C16 17.4477 16.4477 17 17 17C18.6569 17 20 15.6569 20 14V8C20 6.34315 18.6569 5 17 5H7C5.34315 5 4 6.34315 4 8V14C4 15.6569 5.34315 17 7 17C7.55228 17 8 17.4477 8 18C8 18.5523 7.55228 19 7 19C4.23858 19 2 16.7614 2 14V8ZM13 11.5858L15.2929 13.8787C15.6834 14.2692 16.3166 14.2692 16.7071 13.8787C17.0976 13.4882 17.0976 12.855 16.7071 12.4645L14.1213 9.87868C12.9497 8.70711 11.0503 8.70711 9.87868 9.87868L7.29289 12.4645C6.90237 12.855 6.90237 13.4882 7.29289 13.8787C7.68342 14.2692 8.31658 14.2692 8.70711 13.8787L11 11.5858V20.0833C11 20.5896 11.4477 21 12 21C12.5523 21 13 20.5896 13 20.0833V11.5858Z" fill="#ffffff"/>
+            </svg>
+        </div>
+    </div>
+    <div id="preserve">        
+    </div>
     
   </div>
 
@@ -612,6 +646,7 @@
         });
     });        
         
+    //建立角色item
     for (let i = 0; i < character.length; i++) {
         if (character[i]) {
             let parentDiv = document.getElementById(character[i][0]);
@@ -640,11 +675,11 @@
             };
         };
     };
-    
+
+    //選取進入計算區
     const chars = document.querySelectorAll('.item');
     const selectedChars = [null, null, null, null, null]; // 使用 null 作為預留位置
     const speedchars = [null, null, null, null, null];
-    
 
     chars.forEach(char => {
         char.addEventListener('click', () => {
@@ -729,34 +764,48 @@
                 // 處理浮點數精度問題並找到最大值
                 let maxKey = "over4RL"; // 預設值
                 let maxValue = 0;
+                
                 for (const key in sums) {
                     sums[key] = Math.round(sums[key] * 100) / 100; // 四捨五入到小數點後兩位
 
                     if (sums[key] >= 100) {
                         if (maxValue === 0 || sums[key] < maxValue) {
-                            maxValue = sums[key];
-                            maxKey = key;
-                            
+                            maxValue = sums[key];                            
+                            maxKey = key;                            
                         };
                     };
                 };            
 
                 // 設定結果名稱
-                let resultname = maxKey;
+                let resultname = maxKey;                
+                let previousSentence = "";
                 if (maxKey === "twoRL"){
                     resultname = "2RL";
+                    previousSentence ="";
                 };
                 if (maxKey === "twofiveRL"){
                     resultname = "2.5RL";
+                    previousSentence = "2RL(";
+                    previousSentence += sums.twoRL;
+                    previousSentence += ")";
                 };
                 if (maxKey === "threeRL"){
                     resultname = "3RL";
+                    previousSentence = "2.5RL(";
+                    previousSentence += sums.twofiveRL;
+                    previousSentence += ")";
                 };
                 if (maxKey === "threefiveRL"){
                     resultname = "3.5RL";
+                    previousSentence = "3RL(";
+                    previousSentence += sums.threeRL;
+                    previousSentence += ")";
                 };
                 if (maxKey === "fourRL"){
                     resultname = "4RL";
+                    previousSentence = "3.5RL(";
+                    previousSentence += sums.threefiveRL;
+                    previousSentence += ")";
                 };
                 if (sums.bonusSpeed > 0) {
                 resultname += "+";
@@ -767,22 +816,52 @@
                 result.classList.add(maxKey);
                 let finalspeed = 0;
 
-
                 if(maxValue === 0){
                     finalspeed = sums.fourRL;
                 } else {
                     finalspeed = maxValue;
                 };
 
-                result.innerHTML = `<p>${resultname}<br>(${finalspeed})</p>`;
+                result.innerHTML = `<p class="burstResult">${resultname}<br>(${finalspeed})</p><p class="previousResult">${previousSentence}</p>`;
 
-                console.log("計算結果:", sums);
+                console.log("計算結果:", previousSentence);
             }
             calculateAndDisplay();
         });
     });
     
+    const preserveBtn = document.getElementById('preserveBtn');
+    const caculates = document.getElementsByClassName('caculate');
+    const preserve = document.getElementById('preserve');
+
+    preserveBtn.addEventListener('click', () => {
+    // 預先清空 preserve 元素
+    preserve.innerHTML = '';
+
+    // 將 HTMLCollection 轉換為陣列，以便遍歷
+    const caculatesArray = Array.from(caculates);
+
+    caculatesArray.forEach(caculate => {
+        // 複製 class="item" 的元素
+        const items = caculate.querySelectorAll('.charimg'); // 從 caculate 中選取 .item
+        items.forEach(item => {
+        const clonedItem = item.cloneNode(true);
+        preserve.appendChild(clonedItem);
+        });
+
+        // 複製 id="result" 的元素
+        const resultElement = caculate.querySelector('.burstResult'); // 從 caculate 中選取 #result
+        if (resultElement) {
+        const clonedResult = resultElement.cloneNode(true);
+        preserve.appendChild(clonedResult);
+        }
+    });
+    });
     
+
+
+
+    //隱藏非常用角色
     const columns = document.querySelectorAll('.column');
 
     columns.forEach(column => {
