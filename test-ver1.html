@@ -260,25 +260,33 @@
         .result{
             display: flex;
             flex-direction: column;
-            align-items:left;
+            align-items: left;
             box-sizing: border-box;
             width:100px;
             height: 100px;
             margin: 4px;
             padding: 12px;
+            gap: 12px;
             background-color: #ffffff;
             color: #585858;
             border-radius:5px;
             font-family: Arial, Helvetica, sans-serif;
         }
-        .burstResult{                        
-            font-weight: 900;
+        .burstResult{
+            height: fit-content;
+            font-weight: 900;             
             margin: 0;
             padding: 0;
             margin-top: 4px;
         }
+        .burstResult p {
+            margin: 0;
+        }
         .previousResult{
             font-size: 12px;
+        }
+        .previousResult p {
+            margin: 0;
         }
         .twoRL{
             background-color: #ffabab;
@@ -310,10 +318,22 @@
             font-size: 12px;
         }
         #preserve .burstResult{
+            display: flex;
+            align-items: center;
+            height: 48px;
             padding-left: 12px;
+            background-color: rgba(255, 255, 255, 0.7);
+            color: #303030;
+            border-radius: 5px;
+            padding-right: 12px;
+            margin-left: 12px;
         }
         #delBtn{
-            padding-left: 12px;
+            display: flex;
+            align-items: center;
+            margin-left: 24px;
+            background-color: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
         }
 
         @media (max-width: 760px) {
@@ -333,15 +353,15 @@
                 align-content: flex-start;
             }
             .blank{
-            height: 250px;
+            height: 200px;
             }
         }
-        @media (max-width: 540px) {
+        @media (max-width: 560px) {
             .caculateArea{
                 height: 250px;
             }
             .blank{
-            height: 250px;
+            height: 320px;
             }
         }
 
@@ -495,8 +515,7 @@
     <div id="preserve">        
     </div>
     
-  </div>
-
+  
 
   <script>    
 
@@ -848,7 +867,13 @@
                     finalspeed = maxValue;
                 };
 
-                result.innerHTML = `<p class="burstResult">${resultname}<br>(${finalspeed})</p><p class="previousResult">${previousSentence}</p>`;
+                result.innerHTML = `
+                <div class="burstResult">
+                    <p>${resultname}<br>(${finalspeed})</p>
+                </div>
+                <div class="previousResult">
+                <p>${previousSentence}</p>
+                </div>`;
 
                 console.log("計算結果:", previousSentence);
             }
@@ -890,7 +915,11 @@
         const delBtn = document.createElement('div');
         delBtn.id ="delBtn";
         delBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M17.7046 19.6062C18.2297 20.1313 19.0811 20.1313 19.6062 19.6062C20.1313 19.0811 20.1313 18.2297 19.6062 17.7046L13.9015 12L19.6062 6.29537C20.1313 5.77027 20.1313 4.91892 19.6062 4.39382C19.0811 3.86873 18.2297 3.86873 17.7046 4.39382L12 10.0985L6.29537 4.39382C5.77027 3.86873 4.91892 3.86873 4.39382 4.39382C3.86873 4.91892 3.86873 5.77027 4.39382 6.29537L10.0985 12L4.39382 17.7046C3.86873 18.2297 3.86873 19.0811 4.39382 19.6062C4.91892 20.1313 5.77027 20.1313 6.29537 19.6062L12 13.9015L17.7046 19.6062Z" fill="#343434"/>
+            <path d="M17.7046 19.6062C18.2297 20.1313 19.0811 20.1313 19.6062 19.6062C20.1313 19.0811 20.1313 18.2297 19.6062 
+            17.7046L13.9015 12L19.6062 6.29537C20.1313 5.77027 20.1313 4.91892 19.6062 4.39382C19.0811 3.86873 18.2297 3.86873 
+            17.7046 4.39382L12 10.0985L6.29537 4.39382C5.77027 3.86873 4.91892 3.86873 4.39382 4.39382C3.86873 4.91892 3.86873 
+            5.77027 4.39382 6.29537L10.0985 12L4.39382 17.7046C3.86873 18.2297 3.86873 19.0811 4.39382 19.6062C4.91892 20.1313 
+            5.77027 20.1313 6.29537 19.6062L12 13.9015L17.7046 19.6062Z" fill="#ffffff"/>
             </svg>`;
         preserve.appendChild(delBtn);
 
