@@ -909,25 +909,27 @@
                     const clonedResult = resultElement.cloneNode(true);
                     preserve.appendChild(clonedResult);
                 };
+
+                //塞入清除按鈕
+                const delBtn = document.createElement('div');
+                delBtn.id ="delBtn";
+                delBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                    <path d="M17.7046 19.6062C18.2297 20.1313 19.0811 20.1313 19.6062 19.6062C20.1313 19.0811 20.1313 18.2297 19.6062 
+                    17.7046L13.9015 12L19.6062 6.29537C20.1313 5.77027 20.1313 4.91892 19.6062 4.39382C19.0811 3.86873 18.2297 3.86873 
+                    17.7046 4.39382L12 10.0985L6.29537 4.39382C5.77027 3.86873 4.91892 3.86873 4.39382 4.39382C3.86873 4.91892 3.86873 
+                    5.77027 4.39382 6.29537L10.0985 12L4.39382 17.7046C3.86873 18.2297 3.86873 19.0811 4.39382 19.6062C4.91892 20.1313 
+                    5.77027 20.1313 6.29537 19.6062L12 13.9015L17.7046 19.6062Z" fill="#ffffff"/>
+                    </svg>`;
+                preserve.appendChild(delBtn);
+        
+                //點選清除按鈕清空preserve
+                const sensordelBtn = document.getElementById('delBtn');
+                sensordelBtn.addEventListener('click', () => {
+                    preserve.innerHTML = '';
+                });
             };
         });
-        //塞入清除按鈕
-        const delBtn = document.createElement('div');
-        delBtn.id ="delBtn";
-        delBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-            <path d="M17.7046 19.6062C18.2297 20.1313 19.0811 20.1313 19.6062 19.6062C20.1313 19.0811 20.1313 18.2297 19.6062 
-            17.7046L13.9015 12L19.6062 6.29537C20.1313 5.77027 20.1313 4.91892 19.6062 4.39382C19.0811 3.86873 18.2297 3.86873 
-            17.7046 4.39382L12 10.0985L6.29537 4.39382C5.77027 3.86873 4.91892 3.86873 4.39382 4.39382C3.86873 4.91892 3.86873 
-            5.77027 4.39382 6.29537L10.0985 12L4.39382 17.7046C3.86873 18.2297 3.86873 19.0811 4.39382 19.6062C4.91892 20.1313 
-            5.77027 20.1313 6.29537 19.6062L12 13.9015L17.7046 19.6062Z" fill="#ffffff"/>
-            </svg>`;
-        preserve.appendChild(delBtn);
-
-        //點選清除按鈕清空preserve
-        const sensordelBtn = document.getElementById('delBtn');
-        sensordelBtn.addEventListener('click', () => {
-            preserve.innerHTML = '';
-        });
+        
     });
 
     
