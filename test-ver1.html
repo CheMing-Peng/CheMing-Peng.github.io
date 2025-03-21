@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Nikke Burst Caulator</title>
+    <title>Document</title>
     <style>
         
         body{
@@ -311,7 +311,9 @@
         }
         #preserve .burstResult{
             padding-left: 12px;
-
+        }
+        #delBtn{
+            padding-left: 12px;
         }
 
         @media (max-width: 760px) {
@@ -528,7 +530,7 @@
     ];
 
     //角色資訊：企業(後綴pvp為常用角), 英文, 中文, 編號, 速度級
-    var character = [
+    var characterUnsort = [
         ["Elysionpvp", "Helm", "海倫*", "352", "Helm","03"],
         ["Elysionpvp", "Maiden", "梅登", "181", "Noir","03"],
         ["Elysionpvp", "Maiden: Ice Rose", "冰梅登", "183", "Maiden: Ice Rose","03"],
@@ -549,7 +551,7 @@
         ["Missilis", "Naga", "娜嘉", "450", "Naga","02"],
         ["Tetrapvp", "Anis", "SR阿妮斯", "012", "Anis","02"],
         ["Tetrapvp", "Blanc", "布蘭兒", "270", "Blanc","02"],
-        ["Tetrapvp", "Rumani", "魯瑪妮", "240", "Blanc","01"],
+        ["Tetrapvp", "Rumani", "魯瑪妮", "240", "Rumani","01"],
         ["Tetrapvp", "Viper", "毒蛇", "112", "Noir","02"],
         ["Tetrapvp", "Sugar", "舒格", "140", "Noir","03"],
         ["Tetrapvp", "Noir", "諾亞爾", "271", "Noir","03"],
@@ -569,6 +571,30 @@
         ["Abnormalpvp", "Emilia", "愛蜜莉雅", "821", "Emilia","03"]
         
     ];
+
+    function multiSort(arr) {
+        arr.sort((a, b) => {
+            // 先比較爆裂
+            if (a[5] !== b[5]) {
+                if (typeof a[5] === 'string' && typeof b[5] === 'string') {
+                    return a[5].localeCompare(b[5]); // 字串比較
+                } else {
+                    return a[5] - b[5]; // 數字比較
+                }
+            } else {
+            // 如果爆裂相同，比較編號            
+                return a[3] - b[3]; // 數字比較            
+            }
+        });
+        return arr;
+    }
+
+    // 進行排序
+    let character = multiSort(characterUnsort);
+
+
+
+
     //優化圖片載入時間點
     document.addEventListener('DOMContentLoaded', () => {
         //pvp常用角優先載入
@@ -830,36 +856,52 @@
         });
     });
     
+    
+    //保存一組數據供比對
     const preserveBtn = document.getElementById('preserveBtn');
     const caculates = document.getElementsByClassName('caculate');
     const preserve = document.getElementById('preserve');
 
     preserveBtn.addEventListener('click', () => {
     // 預先清空 preserve 元素
-    preserve.innerHTML = '';
+        preserve.innerHTML = '';
+        // 將 HTMLCollection 轉換為陣列，以便遍歷
+        const caculatesArray = Array.from(caculates);
 
-    // 將 HTMLCollection 轉換為陣列，以便遍歷
-    const caculatesArray = Array.from(caculates);
+        caculatesArray.forEach(caculate => {
+            // 複製 class="item" 的元素
+            const items = caculate.querySelectorAll('.charimg'); // 從 caculate 中選取 .item
+            items.forEach(item => {
+            const clonedItem = item.cloneNode(true);
+            preserve.appendChild(clonedItem);
+            });
 
-    caculatesArray.forEach(caculate => {
-        // 複製 class="item" 的元素
-        const items = caculate.querySelectorAll('.charimg'); // 從 caculate 中選取 .item
-        items.forEach(item => {
-        const clonedItem = item.cloneNode(true);
-        preserve.appendChild(clonedItem);
-        });
-
-         //判斷是否有選入角色
-        if (items.length > 0) {
-            const resultElement = caculate.querySelector('.burstResult'); // 從 caculate 中選取 #result
-            // 複製 id="result" 的元素
-            if (resultElement) {
-                const clonedResult = resultElement.cloneNode(true);
-                preserve.appendChild(clonedResult);
+            //判斷是否有選入角色
+            if (items.length > 0) {
+                const resultElement = caculate.querySelector('.burstResult'); // 從 caculate 中選取 #result
+                // 複製 id="result" 的元素
+                if (resultElement) {
+                    const clonedResult = resultElement.cloneNode(true);
+                    preserve.appendChild(clonedResult);
+                };
             };
-        };
+        });
+        //塞入清除按鈕
+        const delBtn = document.createElement('div');
+        delBtn.id ="delBtn";
+        delBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M17.7046 19.6062C18.2297 20.1313 19.0811 20.1313 19.6062 19.6062C20.1313 19.0811 20.1313 18.2297 19.6062 17.7046L13.9015 12L19.6062 6.29537C20.1313 5.77027 20.1313 4.91892 19.6062 4.39382C19.0811 3.86873 18.2297 3.86873 17.7046 4.39382L12 10.0985L6.29537 4.39382C5.77027 3.86873 4.91892 3.86873 4.39382 4.39382C3.86873 4.91892 3.86873 5.77027 4.39382 6.29537L10.0985 12L4.39382 17.7046C3.86873 18.2297 3.86873 19.0811 4.39382 19.6062C4.91892 20.1313 5.77027 20.1313 6.29537 19.6062L12 13.9015L17.7046 19.6062Z" fill="#343434"/>
+            </svg>`;
+        preserve.appendChild(delBtn);
+
+        //點選清除按鈕清空preserve
+        const sensordelBtn = document.getElementById('delBtn');
+        sensordelBtn.addEventListener('click', () => {
+            preserve.innerHTML = '';
+        });
     });
-    });
+
+    
     
 
 
