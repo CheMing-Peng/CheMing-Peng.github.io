@@ -3,11 +3,27 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Nikke Burst Caculator</title>
+    <title>Nikke Burst Caculator ver1.0</title>
     <style>
-        
+        :root{
+            --bg-white: 255, 255, 255;
+            --bg-black: 0, 0, 0;
+            --content-mainColor: 255, 255, 255;
+            --content-reverseColor: 0, 0, 0;
+            --border-radius: 5px;
+            --margin-min: 4px;
+            --margin: 8px;
+            --margin-big: 12px;
+            --font-weight-middle:500;
+            --font-weight-heavy: 900;
+            --border-line-heavy: 3px;
+        }
+
+
         body{
-            background-color: rgb(0, 0, 0);
+            background-color: rgb(var(--bg-black));
+            font-family: Arial, Helvetica, sans-serif;
+            font-size: 12px;
         }
 
         /*最外層*/
@@ -28,7 +44,6 @@
             margin: 2px;
             position: relative;
             border-radius: 8px;
-            border-top: #ffffff 1px;
             overflow: hidden;
             height: fit-content;
         }
@@ -55,12 +70,10 @@
             display: flex; 
             align-items: center;      
             width: 100%;
-            padding-left: 8px;
-            font-size: 12px;
-            font-weight: 900;
+            padding-left: var(--margin);
+            font-weight: var(--font-weight-heavy);
             text-decoration: underline;
-            font-family: Arial, Helvetica, sans-serif;
-            color: rgb(255, 255, 255);
+            color: rgb(var(--content-mainColor));
             cursor: pointer;
         }
         .hide{
@@ -68,12 +81,10 @@
             align-items: center; 
             order: 999;
             width: 100%;
-            padding-left: 8px;
-            font-size: 12px;
-            font-weight: 900;
+            padding-left: var(--margin);
+            font-weight: var(--font-weight-heavy)0;
             text-decoration: underline;
-            font-family: Arial, Helvetica, sans-serif;
-            color: rgb(255, 255, 255);
+            color: rgb(var(--content-mainColor));
             cursor: pointer;
         }
 
@@ -82,13 +93,12 @@
             margin: 0;
             width: 100%;
             height: fit-content;
-            padding-left: 4px;
-            padding-bottom: 4px;
+            padding-left: var(--margin-min);
+            padding-bottom: var(--margin-min);
             font-size: 20px;
-            font-weight: 900;
-            font-family: Arial, Helvetica, sans-serif;
-            background-color: rgb(0, 0, 0, 0.5);
-            color: rgb(255, 255, 255);
+            font-weight: var(--font-weight-heavy);
+            background-color: rgb(var(--bg-black), 0.5);
+            color: rgb(var(--content-mainColor));
             text-transform: uppercase;
         }
 
@@ -98,16 +108,15 @@
             display: flex;
             flex-direction: column;
             box-sizing: border-box;
-            margin: 4px; 
+            margin: var(--margin-min); 
             width: 64px;
             height: 92px;
             align-items: center;
             background-color: rgba(150, 150, 150, 0.9);
-            border: 1px solid rgba(255, 255, 255);
-            font-size: 12px;
-            font-weight: 500;
-            border-radius:5px;
-            gap: 4px;
+            border: 1px solid rgb(var(--content-mainColor));
+            font-weight: var(--font-weight-middle);
+            border-radius: var(--border-radius);
+            gap: var(--margin-min);
             cursor: pointer;
             padding-top: 2px;            
         }
@@ -124,11 +133,11 @@
             height: 64px;             
             object-position: top;
             object-fit: cover; 
-            border-radius: 5px;
+            border-radius: var(--border-radius);
         }
         .charactername{
-            margin: 0px;
-            margin-bottom: 4px;
+            margin: 0;
+            margin-bottom: var(--margin-min);
             pointer-events: none;
         }
         .itemhover{
@@ -145,41 +154,41 @@
             
         }
         .selected1{
-            background-color: rgba(255, 255, 255, 1);
-            border: 3px solid rgb(255, 0, 0,0.5);
-            padding-top: 0px;
+            background-color: rgb(var(--bg-white));
+            border: var(--border-line-heavy) solid rgb(255, 0, 0,0.5);
+            padding-top: 0;
         }
         .selected1 .burst{
             filter: invert(100%);
         }
         .selected2{
-            background-color: rgba(255, 255, 255, 1);
-            border: 3px solid rgba(0, 255, 76, 0.5);
-            padding-top: 0px;
+            background-color: rgb(var(--bg-white));
+            border: var(--border-line-heavy) solid rgba(0, 255, 76, 0.5);
+            padding-top: 0;
         }
         .selected2 .burst{
             filter: invert(100%);
         }
         .selected3{
-            background-color: rgba(255, 255, 255, 1);
-            border: 3px solid rgba(0, 60, 255, 0.5);
-            padding-top: 0px;
+            background-color: rgb(var(--bg-white));
+            border: var(--border-line-heavy) solid rgba(0, 60, 255, 0.5);
+            padding-top: 0;
         }
         .selected3 .burst{
             filter: invert(100%);
         }
         .selected4{
-            background-color: rgba(255, 255, 255, 1);
-            border: 3px solid rgba(255, 0, 234, 0.5);
-            padding-top: 0px;
+            background-color: rgb(var(--bg-white));
+            border: var(--border-line-heavy) solid rgba(255, 0, 234, 0.5);
+            padding-top: 0;
         }
         .selected4 .burst{
             filter: invert(100%);
         }
         .selected5{
-            background-color: rgba(255, 255, 255, 1);
-            border: 3px solid rgba(255, 166, 0, 0.5);
-            padding-top: 0px;
+            background-color: rgb(var(--bg-white));
+            border: var(--border-line-heavy) solid rgba(255, 166, 0, 0.5);
+            padding-top: 0;
         }
         .selected5 .burst{
             filter: invert(100%);
@@ -194,7 +203,7 @@
             width: 100%; 
             height: 100%;
             z-index: -2;
-            background-color: rgb(40, 40, 40);                       
+            background-color: rgb(var(--bg-white),0.2);                       
         }
         .corplogo{
             position: relative;
@@ -224,8 +233,8 @@
             width: 100%;
             height: 150px;
             background-color: rgba(40, 40, 40, 0.9);
-            padding: 8px;
-            padding-left: 12px;
+            padding: var(--margin);
+            padding-left: var(--margin-big);
             margin: 0;
             padding-bottom: env(safe-area-inset-bottom); /* 加上安全區域的底部內邊距 */
             padding-bottom: constant(safe-area-inset-bottom);
@@ -234,7 +243,7 @@
         .note{
             padding: 0;
             margin: 0;
-            color: #ffffff;
+            color: rgb(var(--content-mainColor));
             height: 20px;
             display: flex;
             align-items:center;
@@ -254,8 +263,8 @@
             width: 72px;
             height: 100px;
             background-color: rgba(87, 87, 87, 0.7);
-            margin: 4px;
-            border-radius:5px;
+            margin: var(--margin-min);
+            border-radius: var(--border-radius);
         }
         .result{
             display: flex;
@@ -264,29 +273,27 @@
             box-sizing: border-box;
             width:100px;
             height: 100px;
-            margin: 4px;
-            padding: 12px;
-            gap: 12px;
-            background-color: #ffffff;
+            margin: var(--margin-min);
+            padding: var(--margin-big);
+            gap: var(--margin-big);
+            background-color: rgb(var(--bg-white));
             color: #585858;
-            border-radius:5px;
-            font-family: Arial, Helvetica, sans-serif;
+            border-radius: var(--border-radius);
+            font-size: 16px;
         }
         .burstResult{
-            height: fit-content;
-            font-weight: 900;             
+            height: fit-content;            
+            font-weight: var(--font-weight-heavy);             
             margin: 0;
             padding: 0;
-            margin-top: 4px;
+            margin-top: var(--margin-min);
         }
         .burstResult p {
             margin: 0;
         }
-        .previousResult{
-            font-size: 12px;
-        }
         .previousResult p {
-            margin: 0;
+            margin: 0;            
+            font-size: 12px;
         }
         .twoRL{
             background-color: #ffabab;
@@ -312,28 +319,25 @@
             height: fit-content;
             width: 100%;
             padding: 0;
-            padding-left: 12px;
-            background-color: rgba(255, 255, 255, 0.5);
-            font-family: Arial, Helvetica, sans-serif;
-            font-size: 12px;
+            padding-left: var(--margin-big);
+            background-color: rgba(150, 150, 150, 0.9);
         }
         #preserve .burstResult{
             display: flex;
             align-items: center;
             height: 48px;
-            padding-left: 4px;            
-            padding-right: 4px;
-            background-color: rgba(255, 255, 255, 0.7);
+            padding-left: var(--margin-min);            
+            padding-right: var(--margin-min);
+            background-color: rgba(var(--bg-white), 0.7);
             color: #303030;
-            border-radius: 5px;
-            margin-left: 8px;
+            border-radius: var(--border-radius);
+            margin-left: var(--margin);
         }
         #delBtn{
             display: flex;
             align-items: center;
-            margin-left: 8px;
-            background-color: rgba(0, 0, 0, 0.5);
-            border-radius: 5px;
+            margin-left: var(--margin);
+            border-radius: var(--border-radius);
         }
 
         @media (max-width: 760px) {
@@ -545,6 +549,7 @@
         ["Blanc", 5.2, 6, 7.6, 9, 10.4, 0],
         ["Liter", 3.2, 3.9, 5.4, 6.2, 6.9, 0],
         ["Cinderella", 2.025, 3.375, 4.725, 5.4, 7.2, 0],
+        ["Rosanna", 1.8, 2.4, 3.65, 4.35, 5.35, 0],
         ["Crown", 1.7, 2.3, 3.55, 4.25, 5.25, 0]
     ];
 
@@ -580,6 +585,7 @@
         ["Tetrapvp", "Bay", "貝伊", "550", "Noise","02"],
         ["Tetrapvp", "Anis: Sparkling Summer", "泳阿尼斯", "015", "Anis: Sparkling Summer","03"],
         ["Tetrapvp", "Moran", "牡丹", "281", "Moran","01"],
+        ["Tetrapvp", "Rosanna", "羅珊娜", "280", "Rosanna","01"],
         ["Pilgrimpvp", "Noah", "諾雅", "232", "Noah","02"],
         ["Pilgrimpvp", "Rapunzel", "長髮公主", "221", "Rapunzel","01"],
         ["Pilgrimpvp", "Scarlet", "紅蓮", "222", "Scarlet","03"],
@@ -921,13 +927,15 @@
                     5.77027 20.1313 6.29537 19.6062L12 13.9015L17.7046 19.6062Z" fill="#ffffff"/>
                     </svg>`;
                 preserve.appendChild(delBtn);
-        
+
                 //點選清除按鈕清空preserve
                 const sensordelBtn = document.getElementById('delBtn');
                 sensordelBtn.addEventListener('click', () => {
                     preserve.innerHTML = '';
                 });
             };
+
+            
         });
         
     });
