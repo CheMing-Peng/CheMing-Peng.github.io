@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <title>Nikke Burst Caculator ver1.0</title>
+    <title>Nikke Burst Caculator ver 2.0</title>
     <style>
+        
         :root{
             --bg-white: 255, 255, 255;
             --bg-black: 0, 0, 0;
@@ -20,17 +21,25 @@
         }
 
 
-        body{
+        body{            
             background-color: rgb(var(--bg-black));
             font-family: Arial, Helvetica, sans-serif;
             font-size: 12px;
         }
 
         /*最外層*/
-        .container {
+        .container { /* 企業排序 */
           display: flex;
           justify-content: start; 
           width: 100%;
+        }
+        .speed-container { /* 爆裂速度排序 */
+            display: none; /* 初始隱藏 */
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            width: 100%;
+            overflow: hidden;
         }
         .blank{
             height: 150px;
@@ -100,6 +109,23 @@
             background-color: rgb(var(--bg-black), 0.5);
             color: rgb(var(--content-mainColor));
             text-transform: uppercase;
+        }
+
+        /*速度div*/
+        .speed {
+            display: flex;
+            flex-wrap: wrap;
+            margin: 2px;
+            position: relative;
+            border-radius: 8px;            
+            height: fit-content;
+            width: 100%;
+            background-color: rgb(var(--bg-white), 0.2);
+        }
+        .speedName p{
+            color: rgb(var(--content-mainColor));
+            margin-bottom: 2px;
+            margin-left: 8px;
         }
 
         /*人物div*/
@@ -248,6 +274,7 @@
             display: flex;
             align-items:center;
             font-size: 14px;
+            gap: 12px;
         }
         .caculate{
             position: relative;
@@ -434,7 +461,7 @@
                 </svg>
             </div>
             <div class="columnin" id="Tetra">
-                <div class="hide" id="hideMissilis">
+                <div class="hide" id="hideTetra">
                     <p>隱藏</p>
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.7079 3.76472C6.32957 3.41176 5.67043 3.41176 5.2921 3.76472L2.14669 6.69922C1.93557 6.89619 1.95459 7.19956 2.18917 7.37683C2.42374 7.55409 2.78505 7.53813 2.99617 7.34116C2.99617 7.34116 4.58073 6.22001 6 6.22001C7.41927 6.22001 9.00383 7.34117 9.00383 7.34117C9.21495 7.53813 9.57626 7.5541 9.81083 7.37683C10.0454 7.19956 10.0644 6.89619 9.85331 6.69922L6.7079 3.76472Z" fill="#ffffff"/>
@@ -456,7 +483,7 @@
                 </svg>
             </div>
             <div class="columnin" id="Pilgrim">
-                <div class="hide" id="hideMissilis">
+                <div class="hide" id="hidePilgrim">
                     <p>隱藏</p>
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.7079 3.76472C6.32957 3.41176 5.67043 3.41176 5.2921 3.76472L2.14669 6.69922C1.93557 6.89619 1.95459 7.19956 2.18917 7.37683C2.42374 7.55409 2.78505 7.53813 2.99617 7.34116C2.99617 7.34116 4.58073 6.22001 6 6.22001C7.41927 6.22001 9.00383 7.34117 9.00383 7.34117C9.21495 7.53813 9.57626 7.5541 9.81083 7.37683C10.0454 7.19956 10.0644 6.89619 9.85331 6.69922L6.7079 3.76472Z" fill="#ffffff"/>
@@ -478,7 +505,7 @@
                 </svg>
             </div>
             <div class="columnin" id="Abnormal">
-                <div class="hide" id="hideMissilis">
+                <div class="hide" id="hideAbnormal">
                     <p>隱藏</p>
                     <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
                         <path fill-rule="evenodd" clip-rule="evenodd" d="M6.7079 3.76472C6.32957 3.41176 5.67043 3.41176 5.2921 3.76472L2.14669 6.69922C1.93557 6.89619 1.95459 7.19956 2.18917 7.37683C2.42374 7.55409 2.78505 7.53813 2.99617 7.34116C2.99617 7.34116 4.58073 6.22001 6 6.22001C7.41927 6.22001 9.00383 7.34117 9.00383 7.34117C9.21495 7.53813 9.57626 7.5541 9.81083 7.37683C10.0454 7.19956 10.0644 6.89619 9.85331 6.69922L6.7079 3.76472Z" fill="#ffffff"/>
@@ -488,13 +515,18 @@
         </div>
   </div>
 
+  <div class="speed-container">
+
+  </div>
+
   <div class="blank">
 
   </div>
   
   <div class="caculateArea">
     <div class="note">
-        <p>*珍藏品</p>
+        <p>*珍藏品 #技能2滿等</p>
+        <button id="toggleSort">切換排序方式</button>
     </div>
     <div class="caculate">
         <div id="cacuplace1" class="cacuplace">
@@ -672,14 +704,14 @@
         ["Tetra", "Mary: Bay Goddess", "泳梅里", "132", "Frima","01"],
         ["Tetra", "Nero", "尼羅", "380", "Liter","02"],
         ["Tetra", "Ludmilla: Winter Owner", "冬魯德米拉", "194", "Crown","03"],
-        ["Tetra", "Mica: Snow Buddy", "聖誕米卡**", "062", "Mica: Snow Buddy","01"],
+        ["Tetra", "Mica: Snow Buddy", "聖誕米卡#", "062", "Mica: Snow Buddy","01"],
         ["Tetra", "Leona", "萊昂納", "382", "Naga","02"],
         ["Tetra", "Ade", "愛德", "310", "Moran","02"],
         ["Tetra", "Alice: Wonderland Bunny", "愛麗絲兔", "195", "Liter","01"],
         ["Tetra", "Clay", "克雷伊", "551", "Liter","02"],
         ["Tetra", "Rosanna: Chic Ocean", "泳羅珊娜", "283", "Blanc","02"],
         ["Tetra", "Sakura: Bloom in Summer", "泳櫻花", "284", "Sakura: Bloom in Summer","03"],
-        //布蕾德缺爆裂速度
+        ["Tetra", "Bready", "布蕾德", "520", "Maxwell","03"],//暫定同麥斯 圖片網址有問題
 
         //Pilgrim
         ["Pilgrimpvp", "Noah", "諾雅", "232", "Noah","02"],
@@ -708,8 +740,9 @@
         ["Abnormal", "Rem", "雷姆", "820", "Crown","02"],
         ["Abnormal", "Asuka", "明日香", "830", "Asuka","03"],
         ["Abnormal", "Rei", "零", "831", "Crown","03"],
-        ["Abnormal", "Mari", "真理", "832", "Maxwell","02"]
-        // ["Abnormal", "Asuka: WILLE", "風明日香", "835", "Maxwell","02"] 缺充能速度
+        ["Abnormal", "Mari", "真理", "832", "Maxwell","02"],
+        ["Abnormal", "Asuka: WILLE", "風明日香", "835", "Crown","03"],//暫定與皇冠一樣
+        ["Abnormal", "Rei (Tentative Name)", "零 暫稱", "834", "Moran","03"]//暫定與牡丹一樣
     ];
 
     function multiSort(arr) {
@@ -731,8 +764,36 @@
 
     // 進行排序
     let character = multiSort(characterUnsort);
+    let isOriginalSort = true; // 追蹤排序狀態
 
+    const speedContainer = document.querySelector('.speed-container');
+    const container = document.querySelector('.container');
+    const columns = document.querySelectorAll('.column');
 
+    //建立 speed div
+    function createSpeedDivs() {
+        speed.forEach(s => {
+            const speedName = document.createElement('div');
+            speedName.classList.add('speedName');
+            
+            if (s[6] === 0) {
+                speedName.innerHTML = `
+                <p>2RL=${s[1]}, 2.5RL=${s[2]}, 3RL=${s[3]}, 3.5RL=${s[4]}, 4RL=${s[5]}</p>
+                `;
+            } else {
+                speedName.innerHTML = `
+                <p>2RL=${s[1]}+, 2.5RL=${s[2]}+, 3RL=${s[3]}+, 3.5RL=${s[4]}+, 4RL=${s[5]}+</p>
+                `;
+            }            
+            const speedDiv = document.createElement('div');
+            speedDiv.id = s[0];
+            speedDiv.classList.add('speed');
+            speedContainer.appendChild(speedName);
+            speedContainer.appendChild(speedDiv);
+            
+        });
+    }
+    createSpeedDivs();
 
 
     //優化圖片載入時間點
@@ -810,6 +871,15 @@
             }
             });
         });
+
+        // 確保初始狀態正確
+        if (isOriginalSort) {
+            columns.forEach(col => col.style.display = 'flex');
+            speedContainer.style.display = 'none';
+        } else {
+            columns.forEach(col => col.style.display = 'none');
+            speedContainer.style.display = 'flex';
+        };
     });        
         
     //建立角色item
@@ -824,7 +894,7 @@
             photosrc += "_00_s.webp";
 
             const item = document.createElement('div');
-            item.classList.add('item', character[i][3]);
+            item.classList.add('item', character[i][3], character[i][0]);
             item.innerHTML = `
             <div class="itemhover">
             </div>
@@ -846,162 +916,61 @@
     const chars = document.querySelectorAll('.item');
     const selectedChars = [null, null, null, null, null]; // 使用 null 作為預留位置
     const speedchars = [null, null, null, null, null];
+ 
+    S
 
-    chars.forEach(char => {
-        char.addEventListener('click', () => {
-            const index = selectedChars.indexOf(char);
-
-            if (index !== -1) {
-                // 如果已選取，則取消選取
-                char.classList.remove(`selected${index + 1}`);
-                selectedChars[index] = null;
-                speedchars[index] = null; // 清除 speedchars 陣列
-                const cacuplace = document.getElementById(`cacuplace${index + 1}`);
-                cacuplace.replaceChildren();
-            } else {
-                // 如果未選取，則新增選取
-                const emptyIndex = selectedChars.findIndex(item => item === null);
-
-                if (emptyIndex !== -1) {
-                    // 檢查是否已達到選取上限
-                    if (selectedChars.filter(item => item !== null).length < 5) {
-                        selectedChars[emptyIndex] = char;
-                        char.classList.add(`selected${emptyIndex + 1}`);
-                        const clonedchar = char.cloneNode(true);
-
-                        character.forEach((subArray) => {
-                            if (subArray[3] === clonedchar.classList[1]) {
-                                const charspeed = subArray[4];
-
-                                speed.forEach((speedsubArray) => {
-                                    if (speedsubArray[0] === charspeed) {
-                                        speedchars[emptyIndex] = speedsubArray; // 將 speed 子陣列存儲到 speedchars
-                                    };
-                                });
-                            };
-                        });
-
-                        const cacuplace = document.getElementById(`cacuplace${emptyIndex + 1}`);
-                        cacuplace.appendChild(clonedchar);
-
-                        // 為 cacuplace 中的 clonedchar 添加點擊事件監聽器
-                        clonedchar.addEventListener('click', function(event) {
-                            event.stopPropagation(); // 阻止事件阻擋
-
-                            // 找到 clonedchar 在 selectedChars 中的索引
-                            const clonedIndex = selectedChars.indexOf(char);
-                            if (clonedIndex !== -1) {
-                                // 取消選取
-                                char.classList.remove(`selected${clonedIndex + 1}`);
-                                selectedChars[clonedIndex] = null;                                
-                                speedchars[clonedIndex] = null;
-                                cacuplace.replaceChildren();   
-                                
-                                //更新總速度和加成
-                                calculateAndDisplay();
-                            };
-                        });
-                    };
-                };
-            };
-            
-            // 計算總速度和加成
-            function calculateAndDisplay() {                
-                const sums = {
-                    twoRL: 0,
-                    twofiveRL: 0,
-                    threeRL: 0,
-                    threefiveRL: 0,
-                    fourRL: 0,
-                    bonusSpeed: 0
-                };
-
-                speedchars.forEach(subArray => {
-                    if (subArray) {
-                        sums.twoRL += subArray[1] || 0;
-                        sums.twofiveRL += subArray[2] || 0;
-                        sums.threeRL += subArray[3] || 0;
-                        sums.threefiveRL += subArray[4] || 0;
-                        sums.fourRL += subArray[5] || 0;
-                        sums.bonusSpeed += subArray[6] || 0;
-                    };
-                });
-
-                // 處理浮點數精度問題並找到最大值
-                let maxKey = "over4RL"; // 預設值
-                let maxValue = 0;
-                
-                for (const key in sums) {
-                    sums[key] = Math.round(sums[key] * 100) / 100; // 四捨五入到小數點後兩位
-
-                    if (sums[key] >= 100) {
-                        if (maxValue === 0 || sums[key] < maxValue) {
-                            maxValue = sums[key];                            
-                            maxKey = key;                            
-                        };
-                    };
-                };            
-
-                // 設定結果名稱
-                let resultname = maxKey;                
-                let previousSentence = "";
-                if (maxKey === "twoRL"){
-                    resultname = "2RL";
-                    previousSentence ="";
-                };
-                if (maxKey === "twofiveRL"){
-                    resultname = "2.5RL";
-                    previousSentence = "2RL(";
-                    previousSentence += sums.twoRL;
-                    previousSentence += ")";
-                };
-                if (maxKey === "threeRL"){
-                    resultname = "3RL";
-                    previousSentence = "2.5RL(";
-                    previousSentence += sums.twofiveRL;
-                    previousSentence += ")";
-                };
-                if (maxKey === "threefiveRL"){
-                    resultname = "3.5RL";
-                    previousSentence = "3RL(";
-                    previousSentence += sums.threeRL;
-                    previousSentence += ")";
-                };
-                if (maxKey === "fourRL"){
-                    resultname = "4RL";
-                    previousSentence = "3.5RL(";
-                    previousSentence += sums.threefiveRL;
-                    previousSentence += ")";
-                };
-                if (sums.bonusSpeed > 0) {
-                resultname += "+";
-                };
-
-                // 顯示結果
-                result.className = "result";
-                result.classList.add(maxKey);
-                let finalspeed = 0;
-
-                if(maxValue === 0){
-                    finalspeed = sums.fourRL;
-                } else {
-                    finalspeed = maxValue;
-                };
-
-                result.innerHTML = `
-                <div class="burstResult">
-                    <p>${resultname}<br>(${finalspeed})</p>
-                </div>
-                <div class="previousResult">
-                <p>${previousSentence}</p>
-                </div>`;
-
-                console.log("計算結果:", previousSentence);
-            }
-            calculateAndDisplay();
-        });
-    });
     
+    const toggleSortButton = document.getElementById('toggleSort');
+
+    toggleSortButton.addEventListener('click', () => {
+        isOriginalSort = !isOriginalSort;
+
+        if (isOriginalSort) {
+            columns.forEach(col => col.style.display = 'flex');
+            speedContainer.style.display = 'none';
+            container.style.display = 'flex'; // 顯示 container
+            updateCorpDivs();
+        } else {
+            columns.forEach(col => col.style.display = 'none');
+            speedContainer.style.display = 'flex';
+            container.style.display = 'none'; // 隱藏 container
+            updateSpeedDivs();
+        }
+    });
+
+    function updateSpeedDivs() {
+        
+        const allImages = document.querySelectorAll('img');
+        allImages.forEach(img => {
+            if (img.dataset.src) {
+                img.src = img.dataset.src;
+                delete img.dataset.src;
+            };
+        });        
+
+        chars.forEach(char => {
+            const charCode = char.classList[1];
+            character.forEach(c => {
+                if (c[3] === charCode) {
+                    const speedDivId = c[4];
+                    const speedDiv = document.getElementById(speedDivId);
+                    if (speedDiv) {
+                        speedDiv.appendChild(char);                        
+                    };
+                };
+            });
+        });
+    };
+
+    function updateCorpDivs() {
+        chars.forEach(char => {
+            const corpCode = char.classList[2];
+            let parentDiv = document.getElementById(corpCode);
+            parentDiv.appendChild(char);
+            
+        });
+    };
+
     
     //保存一組數據供比對
     const preserveBtn = document.getElementById('preserveBtn');
@@ -1053,16 +1022,9 @@
             
         });
         
-    });
-
-    
-    
-
-
+    });   
 
     //隱藏非常用角色
-    const columns = document.querySelectorAll('.column');
-
     columns.forEach(column => {
         const showButton = column.querySelector('.show');
         const hideButton = column.querySelector('.hide');
