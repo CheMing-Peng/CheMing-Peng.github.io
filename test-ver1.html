@@ -917,7 +917,161 @@
     const selectedChars = [null, null, null, null, null]; // 使用 null 作為預留位置
     const speedchars = [null, null, null, null, null]; 
 
-    
+    chars.forEach(char => {
+        char.addEventListener('click', () => {
+            const index = selectedChars.indexOf(char);
+
+            if (index !== -1) {
+                // 如果已選取，則取消選取
+                char.classList.remove(`selected${index + 1}`);
+                selectedChars[index] = null;
+                speedchars[index] = null; // 清除 speedchars 陣列
+                const cacuplace = document.getElementById(`cacuplace${index + 1}`);
+                cacuplace.replaceChildren();
+            } else {
+                // 如果未選取，則新增選取
+                const emptyIndex = selectedChars.findIndex(item => item === null);
+
+                if (emptyIndex !== -1) {
+                    // 檢查是否已達到選取上限
+                    if (selectedChars.filter(item => item !== null).length < 5) {
+                        selectedChars[emptyIndex] = char;
+                        char.classList.add(`selected${emptyIndex + 1}`);
+                        const clonedchar = char.cloneNode(true);
+
+                        character.forEach((subArray) => {
+                            if (subArray[3] === clonedchar.classList[1]) {
+                                const charspeed = subArray[4];
+
+                                speed.forEach((speedsubArray) => {
+                                    if (speedsubArray[0] === charspeed) {
+                                        speedchars[emptyIndex] = speedsubArray; // 將 speed 子陣列存儲到 speedchars
+                                    };
+                                });
+                            };
+                        });
+
+                        const cacuplace = document.getElementById(`cacuplace${emptyIndex + 1}`);
+                        cacuplace.appendChild(clonedchar);
+
+                        // 為 cacuplace 中的 clonedchar 添加點擊事件監聽器
+                        clonedchar.addEventListener('click', function(event) {
+                            event.stopPropagation(); // 阻止事件阻擋
+
+                            // 找到 clonedchar 在 selectedChars 中的索引
+                            const clonedIndex = selectedChars.indexOf(char);
+                            if (clonedIndex !== -1) {
+                                // 取消選取
+                                char.classList.remove(`selected${clonedIndex + 1}`);
+                                selectedChars[clonedIndex] = null;                                
+                                speedchars[clonedIndex] = null;
+                                cacuplace.replaceChildren();   
+                                
+                                //更新總速度和加成
+                                calculateAndDisplay();
+                            };
+                        });
+                    };
+                };
+            };
+            
+            // 計算總速度和加成
+            function calculateAndDisplay() {                
+                const sums = {
+                    twoRL: 0,
+                    twofiveRL: 0,
+                    threeRL: 0,
+                    threefiveRL: 0,
+                    fourRL: 0,
+                    bonusSpeed: 0
+                };
+
+                speedchars.forEach(subArray => {
+                    if (subArray) {
+                        sums.twoRL += subArray[1] || 0;
+                        sums.twofiveRL += subArray[2] || 0;
+                        sums.threeRL += subArray[3] || 0;
+                        sums.threefiveRL += subArray[4] || 0;
+                        sums.fourRL += subArray[5] || 0;
+                        sums.bonusSpeed += subArray[6] || 0;
+                    };
+                });
+
+                // 處理浮點數精度問題並找到最大值
+                let maxKey = "over4RL"; // 預設值
+                let maxValue = 0;
+                
+                for (const key in sums) {
+                    sums[key] = Math.round(sums[key] * 100) / 100; // 四捨五入到小數點後兩位
+
+                    if (sums[key] >= 100) {
+                        if (maxValue === 0 || sums[key] < maxValue) {
+                            maxValue = sums[key];                            
+                            maxKey = key;                            
+                        };
+                    };
+                };            
+
+                // 設定結果名稱
+                let resultname = maxKey;                
+                let previousSentence = "";
+                if (maxKey === "twoRL"){
+                    resultname = "2RL";
+                    previousSentence ="";
+                };
+                if (maxKey === "twofiveRL"){
+                    resultname = "2.5RL";
+                    previousSentence = "2RL(";
+                    previousSentence += sums.twoRL;
+                    previousSentence += ")";
+                };
+                if (maxKey === "threeRL"){
+                    resultname = "3RL";
+                    previousSentence = "2.5RL(";
+                    previousSentence += sums.twofiveRL;
+                    previousSentence += ")";
+                };
+                if (maxKey === "threefiveRL"){
+                    resultname = "3.5RL";
+                    previousSentence = "3RL(";
+                    previousSentence += sums.threeRL;
+                    previousSentence += ")";
+                };
+                if (maxKey === "fourRL"){
+                    resultname = "4RL";
+                    previousSentence = "3.5RL(";
+                    previousSentence += sums.threefiveRL;
+                    previousSentence += ")";
+                };
+                if (sums.bonusSpeed > 0) {
+                resultname += "+";
+                };
+
+                // 顯示結果
+                result.className = "result";
+                result.classList.add(maxKey);
+                let finalspeed = 0;
+
+                if(maxValue === 0){
+                    finalspeed = sums.fourRL;
+                } else {
+                    finalspeed = maxValue;
+                };
+
+                result.innerHTML = `
+                <div class="burstResult">
+                    <p>${resultname}<br>(${finalspeed})</p>
+                </div>
+                <div class="previousResult">
+                <p>${previousSentence}</p>
+                </div>`;
+
+                console.log("計算結果:", previousSentence);
+            }
+            calculateAndDisplay();
+        });
+    });
+      
     const toggleSortButton = document.getElementById('toggleSort');
 
     toggleSortButton.addEventListener('click', () => {
