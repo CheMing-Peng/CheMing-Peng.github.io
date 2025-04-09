@@ -147,20 +147,19 @@
             border-radius: var(--border-radius);
             gap: var(--margin-min);
             cursor: pointer;
-            padding-top: 2px;            
-            white-space: nowrap;
+            padding-top: 2px;
+            white-space: nowrap;            
         }
         .burst{
             position: absolute;
             top: 2px;
             right: 2px;
-            width: 24px;
-            height: 24px;
+            width: 40%;
             z-index: 1;
         }
         .charimg{
-            width: 50px; 
-            height: 64px;             
+            width: 80%; 
+            height: 72%;             
             object-position: top;
             object-fit: cover; 
             border-radius: var(--border-radius);
@@ -252,14 +251,22 @@
         }     
         
         /*計算區*/
-        .caculateArea{
+        #bottomFix{
             position: fixed;
+            display: flex;
+            flex-direction: column;
+            align-items:flex-end;
+            width: 100%;
+            height: fit-content;
+            bottom: 0;
+            left: 0;
+            z-index: 2;
+        }
+        .caculateArea{
             display: flex;
             flex-direction: column;
             align-items:flex-start;            
             box-sizing: border-box;
-            bottom: 0;
-            left: 0;
             width: 100%;
             height: 150px;
             background-color: rgba(40, 40, 40, 0.9);
@@ -268,7 +275,7 @@
             margin: 0;
             padding-bottom: env(safe-area-inset-bottom); /* 加上安全區域的底部內邊距 */
             padding-bottom: constant(safe-area-inset-bottom);
-            z-index: 2;
+            
         }
         .note{
             padding: 0;
@@ -297,10 +304,12 @@
             margin: var(--margin-min);
             border-radius: var(--border-radius);
         }
+        
         .result{
             display: flex;
             flex-direction: column;
             align-items: left;
+            justify-content: center;
             box-sizing: border-box;
             width:100px;
             height: 100px;
@@ -341,11 +350,27 @@
         .fourRL{
             background-color: #cdaeff;
         }
-        #preserve{
-            position: absolute;
+
+
+        /*保留區*/
+        #togglePreserve{
+            position: relative;
+            display: none;
+            z-index: 5;
+            right: 12px;
+            bottom: 12px;
+        }
+        #preserve-container{
+            left: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            height: 0;
+            width: 100%;
+        }
+        .preserve{
             display: flex;
             align-items: center;
-            top: -64px;
             left: 0;
             height: fit-content;
             width: 100%;
@@ -353,21 +378,30 @@
             padding-left: var(--margin-big);
             background-color: rgba(150, 150, 150, 0.9);
         }
-        #preserve .burstResult{
+        .preserve .burstResult{
             display: flex;
             align-items: center;
-            height: 48px;
+            height: 32px;
             padding-left: var(--margin-min);            
             padding-right: var(--margin-min);
             background-color: rgba(var(--bg-white), 0.7);
             color: #303030;
             border-radius: var(--border-radius);
             margin-left: var(--margin);
+            line-height: 1.2;
+            font-size: 10px;
         }
         #delBtn{
             display: flex;
             align-items: center;
             margin-left: var(--margin);
+            border-radius: var(--border-radius);
+        }
+        .preserveimg{
+            width: 50px; 
+            height: 64px;             
+            object-position: top;
+            object-fit: cover; 
             border-radius: var(--border-radius);
         }
 
@@ -390,13 +424,36 @@
             .blank{
             height: 200px;
             }
+            
         }
         @media (max-width: 560px) {
             .caculateArea{
-                height: 250px;
+                height: 210px;
             }
             .blank{
             height: 320px;
+            }
+            .preserveimg{
+                width: 40px; 
+                height: 48px;             
+                object-position: top;
+                object-fit: cover; 
+            }
+            .cacuplace{
+                height: 80px;
+            }
+            .cacuplace .charimg{
+                height: 95%;
+            }
+            .cacuplaceItem{
+                height: 90%;
+            }
+            .caculateName{
+                display: none;
+            }
+            .result{
+                height: 80px;
+                gap:var(--margin-min);
             }
         }
 
@@ -518,42 +575,45 @@
             </div>
         </div>
   </div>
-
-  <div class="speed-container">
-
-  </div>
+  
 
   <div class="blank">
-
   </div>
   
-  <div class="caculateArea">
-    <div class="note">
-        <p>*珍藏品 #技能2滿等</p>
-        <button id="toggleSort">切換排序方式</button>
+    <div id="bottomFix">
+        <button id="togglePreserve">Hide</button>
+        <div id="preserve-container">
+        </div>
+        <div class="caculateArea">    
+            <div class="speed-container">
+            </div>
+            <div class="note">
+                <p>*珍藏品 #技能2滿等</p>
+                <button id="toggleSort">切換排序方式</button>                
+            </div>
+            <div class="caculate">
+                <div id="cacuplace1" class="cacuplace">
+                </div>
+                <div id="cacuplace2" class="cacuplace">
+                </div>
+                <div id="cacuplace3" class="cacuplace">
+                </div>
+                <div id="cacuplace4" class="cacuplace">
+                </div>
+                <div id="cacuplace5" class="cacuplace">
+                </div>
+                <div id="result" class="result">
+                    <p style="color: #b4b4b4;">點選角色開始計算</p>
+                </div>
+                <div id="preserveBtn">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2 8C2 5.23858 4.23858 3 7 3H17C19.7614 3 22 5.23858 22 8V14C22 16.7614 19.7614 19 17 19C16.4477 19 16 18.5523 16 18C16 17.4477 16.4477 17 17 17C18.6569 17 20 15.6569 20 14V8C20 6.34315 18.6569 5 17 5H7C5.34315 5 4 6.34315 4 8V14C4 15.6569 5.34315 17 7 17C7.55228 17 8 17.4477 8 18C8 18.5523 7.55228 19 7 19C4.23858 19 2 16.7614 2 14V8ZM13 11.5858L15.2929 13.8787C15.6834 14.2692 16.3166 14.2692 16.7071 13.8787C17.0976 13.4882 17.0976 12.855 16.7071 12.4645L14.1213 9.87868C12.9497 8.70711 11.0503 8.70711 9.87868 9.87868L7.29289 12.4645C6.90237 12.855 6.90237 13.4882 7.29289 13.8787C7.68342 14.2692 8.31658 14.2692 8.70711 13.8787L11 11.5858V20.0833C11 20.5896 11.4477 21 12 21C12.5523 21 13 20.5896 13 20.0833V11.5858Z" fill="#ffffff"/>
+                    </svg>
+                </div>                
+            </div>
+        </div>        
     </div>
-    <div class="caculate">
-        <div id="cacuplace1" class="cacuplace">
-        </div>
-        <div id="cacuplace2" class="cacuplace">
-        </div>
-        <div id="cacuplace3" class="cacuplace">
-        </div>
-        <div id="cacuplace4" class="cacuplace">
-        </div>
-        <div id="cacuplace5" class="cacuplace">
-        </div>
-        <div id="result" class="result">
-            <p style="color: #b4b4b4;">點選角色開始計算</p>
-        </div>
-        <div id="preserveBtn">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                <path fill-rule="evenodd" clip-rule="evenodd" d="M2 8C2 5.23858 4.23858 3 7 3H17C19.7614 3 22 5.23858 22 8V14C22 16.7614 19.7614 19 17 19C16.4477 19 16 18.5523 16 18C16 17.4477 16.4477 17 17 17C18.6569 17 20 15.6569 20 14V8C20 6.34315 18.6569 5 17 5H7C5.34315 5 4 6.34315 4 8V14C4 15.6569 5.34315 17 7 17C7.55228 17 8 17.4477 8 18C8 18.5523 7.55228 19 7 19C4.23858 19 2 16.7614 2 14V8ZM13 11.5858L15.2929 13.8787C15.6834 14.2692 16.3166 14.2692 16.7071 13.8787C17.0976 13.4882 17.0976 12.855 16.7071 12.4645L14.1213 9.87868C12.9497 8.70711 11.0503 8.70711 9.87868 9.87868L7.29289 12.4645C6.90237 12.855 6.90237 13.4882 7.29289 13.8787C7.68342 14.2692 8.31658 14.2692 8.70711 13.8787L11 11.5858V20.0833C11 20.5896 11.4477 21 12 21C12.5523 21 13 20.5896 13 20.0833V11.5858Z" fill="#ffffff"/>
-            </svg>
-        </div>
-    </div>
-    <div id="preserve">        
-    </div>
+    
     
   
 
@@ -955,6 +1015,13 @@
                             };
                         });
 
+                        //控制計算區的角色名稱
+                        clonedchar.classList.add('cacuplaceItem');
+                        const caculateName = clonedchar.querySelectorAll('.charactername');
+                        caculateName.forEach( element => {
+                            element.classList.add('caculateName');
+                        });
+
                         const cacuplace = document.getElementById(`cacuplace${emptyIndex + 1}`);
                         cacuplace.appendChild(clonedchar);
 
@@ -1075,7 +1142,7 @@
             calculateAndDisplay();
         });
     });
-      
+    
     const toggleSortButton = document.getElementById('toggleSort');
 
     toggleSortButton.addEventListener('click', () => {
@@ -1127,24 +1194,68 @@
         });
     };
 
-    
-    //保存一組數據供比對
+
+    //保存數據供比對
     const preserveBtn = document.getElementById('preserveBtn');
     const caculates = document.getElementsByClassName('caculate');
-    const preserve = document.getElementById('preserve');
+    const preserveContainer = document.getElementById('preserve-container');
+    const togglePreserveBtn = document.getElementById('togglePreserve');
 
+    //開關保留區
+    const togglePreserve = document.getElementById('togglePreserve');
+    let isPreserveHide = true;
+
+    togglePreserve.addEventListener('click', () => {
+        isPreserveHide = !isPreserveHide;
+        if (isPreserveHide) {
+            preserveContainer.style.display = 'none';
+            togglePreserveBtn.textContent = 'Show';
+        } else {
+            preserveContainer.style.display = 'flex';
+            togglePreserveBtn.textContent = 'Hide';
+        }
+    });
+
+       
     preserveBtn.addEventListener('click', () => {
-    // 預先清空 preserve 元素
-        preserve.innerHTML = '';
+        //保留時強制顯示保留區與開關按鈕
+        isPreserveHide = false;
+        preserveContainer.style.display = 'flex';
+        togglePreserveBtn.style.display = 'flex';
+        togglePreserveBtn.textContent = 'Hide';
+
         // 將 HTMLCollection 轉換為陣列，以便遍歷
         const caculatesArray = Array.from(caculates);
 
+        //計算目前已有多少preserve
+        let NumberOfPreserve = preserveContainer.children.length;
+
+        //最多保留4組，如果已保存4組，需先清除第4組。
+        if (NumberOfPreserve == 4) {
+            const DeleteDiv = preserveContainer.children[3];
+            preserveContainer.removeChild(DeleteDiv);
+            console.log('已清除第四個');
+            NumberOfPreserve = NumberOfPreserve - 1;
+        }
+        
+        //建立新preserve
+        const preserve = document.createElement('div');
+        let preserveId = 'preserve';
+        preserveId += NumberOfPreserve;
+        preserve.classList.add('preserve');
+        preserve.id = preserveId;
+        preserveContainer.appendChild(preserve);
+
+        //找到剛建立的preserve
+        const targetDiv = preserveContainer.children[NumberOfPreserve];        
+
         caculatesArray.forEach(caculate => {
-            // 複製 class="item" 的元素
-            const items = caculate.querySelectorAll('.charimg'); // 從 caculate 中選取 .item
+            // 複製 class="charming" 的元素
+            const items = caculate.querySelectorAll('.charimg');
             items.forEach(item => {
             const clonedItem = item.cloneNode(true);
-            preserve.appendChild(clonedItem);
+            clonedItem.classList.add('preserveimg');
+            targetDiv.appendChild(clonedItem);
             });
 
             //判斷是否有選入角色
@@ -1153,12 +1264,12 @@
                 // 複製 id="result" 的元素
                 if (resultElement) {
                     const clonedResult = resultElement.cloneNode(true);
-                    preserve.appendChild(clonedResult);
+                    targetDiv.appendChild(clonedResult);
                 };
 
                 //塞入清除按鈕
                 const delBtn = document.createElement('div');
-                delBtn.id ="delBtn";
+                delBtn.id = 'delBtn';
                 delBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
                     <path d="M17.7046 19.6062C18.2297 20.1313 19.0811 20.1313 19.6062 19.6062C20.1313 19.0811 20.1313 18.2297 19.6062 
                     17.7046L13.9015 12L19.6062 6.29537C20.1313 5.77027 20.1313 4.91892 19.6062 4.39382C19.0811 3.86873 18.2297 3.86873 
@@ -1166,19 +1277,23 @@
                     5.77027 4.39382 6.29537L10.0985 12L4.39382 17.7046C3.86873 18.2297 3.86873 19.0811 4.39382 19.6062C4.91892 20.1313 
                     5.77027 20.1313 6.29537 19.6062L12 13.9015L17.7046 19.6062Z" fill="#ffffff"/>
                     </svg>`;
-                preserve.appendChild(delBtn);
-
-                //點選清除按鈕清空preserve
-                const sensordelBtn = document.getElementById('delBtn');
-                sensordelBtn.addEventListener('click', () => {
-                    preserve.innerHTML = '';
+                targetDiv.appendChild(delBtn);
+                
+                //點選清除按鈕刪除preserve
+                delBtn.addEventListener('click', () => {
+                    delBtn.parentNode.remove();
+                    //如果刪除時已沒有任何保留列，隱藏開關按鈕。
+                    if (preserveContainer.children.length == 0){
+                        togglePreserveBtn.style.display = 'none';
+                    }
                 });
-            };
-
-            
+            };            
         });
-        
     });   
+
+    
+
+    
 
     //隱藏非常用角色
     columns.forEach(column => {
