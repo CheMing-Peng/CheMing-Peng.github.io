@@ -9,9 +9,15 @@
         :root{
             --bg-white: 255, 255, 255;
             --bg-black: 0, 0, 0;
+            --bg-dark-gray: 50, 50, 50;
+            --content-orange: 220, 160, 0;
+            --content-light-orange: 255, 280, 60;
+            --content-blue: 40, 140, 255;
+            --content-dark-blue: 10, 35, 70;
+            --content-purple:255, 0, 255;
             --content-mainColor: 255, 255, 255;
             --content-reverseColor: 0, 0, 0;
-            --border-radius: 5px;
+            --border-radius: 2px;
             --margin-min: 4px;
             --margin: 8px;
             --margin-big: 12px;
@@ -20,115 +26,157 @@
             --border-line-heavy: 3px;
         }
 
-
         body{            
             background-color: rgb(var(--bg-black));
             font-family: Arial, Helvetica, sans-serif;
             font-size: 12px;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            user-select: none;
+            margin: 0;
         }
-
+        body::-webkit-scrollbar {
+            display: none;
+        }
         /*最外層*/
         .container { /* 企業排序 */
-          display: flex;
-          justify-content: start; 
-          width: 100%;
-        }
-        .speed-container { /* 爆裂速度排序 */
-            display: none; /* 初始隱藏 */
+            margin-top: 0px;
             display: flex;
             flex-direction: column;
-            align-items: flex-start;
-            width: 100%;
-            overflow: hidden;
+            width: 1024px;
+            height: calc(100vh - 200px);
+            padding-top: 48px;
+            padding-bottom: 200px;
+            overflow: auto;
+            background-color: rgb(var(--bg-white),0.1);
         }
-        .blank{
-            height: 150px;
+        .container::-webkit-scrollbar {
+            display: none;
         }
-
-        /*企業div*/
-        .column {
+        .filterBG {
+            position: fixed;
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;            
-            margin: 2px;
-            position: relative;
-            border-radius: 8px;
-            overflow: hidden;
-            height: fit-content;
+            justify-content: center;
+            width: 1024px;
+            height: 12px;
+            background-color: rgb(var(--content-blue));
+            opacity: 0.9;
+            z-index: 5;
+            fill: rgb(var(--content-blue));
         }
-        #Elysioncolum{
-            width: 16%;
-        }
-        #Tetracolum{
-            width: 30%;
-        }
-        #Missiliscolum{
-            width: 26%;
-        }
-        #Pilgrimcolum{
-            width: 16%;
-        }
-        #Abnormalcolum{
-            width: 12%;
-        }
-        .columnin{
+        #filter-container {
+            position: fixed;
             display: flex;
-            flex-wrap: wrap;
-            align-items: start;
-            position: relative;            
-            width: 100%;
+            align-items: center;
+            justify-content: center;
+            top: 0;
+            width: fit-content;            
+            height: 40px;
+            z-index: 5;
+            gap: var(--margin-big);
         }
-        .show{     
-            display: flex; 
-            align-items: center;      
-            width: 100%;
-            padding-left: var(--margin);
-            font-weight: var(--font-weight-heavy);
-            text-decoration: underline;
-            color: rgb(var(--content-mainColor));
-            cursor: pointer;
-        }
-        .hide{
-            display: flex; 
-            align-items: center; 
-            order: 999;
-            width: 100%;
-            padding-left: var(--margin);
-            font-weight: var(--font-weight-heavy)0;
-            text-decoration: underline;
-            color: rgb(var(--content-mainColor));
-            cursor: pointer;
-        }
-
-        /*企業標題*/
-        .enterprise{
-            margin: 0;
-            width: 100%;
-            height: fit-content;
+        .sort{
+            display: flex;
+            align-items: center;
+            width: 72px;
+            height: 28px;
+            box-sizing: border-box;
+            font-size: 16px;
+            font-weight: 900;
+            color: rgb(var(--bg-white));
             padding-left: var(--margin-min);
-            padding-bottom: var(--margin-min);
-            font-size: 20px;
-            font-weight: var(--font-weight-heavy);
-            background-color: rgb(var(--bg-black), 0.5);
-            color: rgb(var(--content-mainColor));
-            text-transform: uppercase;
+            border: 1px solid rgb(var(--bg-white), 0.5);
+            border-radius: 5px;
+        }
+        .sort p {
+            margin: 0;
+            line-height: 1em;
+        }
+        .sort svg{
+            fill: rgb(var(--bg-white));
+        }
+        .Filter{
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }        
+        .filterBtn{            
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 32px;
+            color: rgb(var(--bg-white));
+        }
+        .filterBtn img{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 24px;
+            height: auto;
+        }
+        .filterBtn svg{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 32px;
+            height: auto;            
+            fill: none;
+            stroke: rgb(var(--bg-white), 0.8);
+            stroke-width: 1px;
+        }
+        #unRegularBtn{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 80px;
+            height: 36px;
+            color: rgb(var(--bg-white));
+            
+            margin: 0;
+            padding: 0;
+            gap: var(--margin-min);
+            overflow: hidden;
+        }
+        #unRegularBtn p{
+            margin: 0;
+            text-align: right;
+            line-height: 1.2em;
+        }
+        .SHstatus {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 16px;
+            width: 28px;
+            padding: var(--margin-min);
+            border: 1px solid rgb(var(--bg-white));
+            border-radius: var(--border-radius);
+            
+        }
+        .SHstatus p {
+            font-family: 'Tahoma';
+            font-weight: 900;
+            transform: scaleX(0.8);
+
         }
 
-        /*速度div*/
-        .speed {
-            display: flex;
-            flex-wrap: wrap;
-            margin: 2px;
+
+
+        #column {
             position: relative;
-            border-radius: 8px;            
+            display: flex;            
+            flex-wrap: wrap;
+            justify-content: center;
+            width: fit-content;
+            margin: 4px;            
+            border-radius: 8px;
             height: fit-content;
-            width: 100%;
-            background-color: rgb(var(--bg-white), 0.2);
-        }
-        .speedName p{
-            color: rgb(var(--content-mainColor));
-            margin-bottom: 2px;
-            margin-left: 8px;
         }
 
         /*人物div*/
@@ -139,35 +187,63 @@
             box-sizing: border-box;
             margin: var(--margin-min); 
             width: 64px;
-            height: 92px;
+            height: 96px;
             align-items: center;
-            background-color: rgba(150, 150, 150, 0.9);
-            border: 1px solid rgb(var(--content-mainColor));
+            background-color: rgba(var(--bg-white), 0.8);
             font-weight: var(--font-weight-middle);
             border-radius: var(--border-radius);
-            gap: var(--margin-min);
             cursor: pointer;
-            padding-top: 2px;
             white-space: nowrap;            
+            box-shadow: 2px 2px 2px 0px rgb(var(--bg-black), 0.3);
         }
         .burst{
             position: absolute;
-            top: 2px;
-            right: 2px;
-            width: 40%;
+            top: 24%;
+            left: 4%;
+            width: 32%;
+            height:fit-content;
             z-index: 1;
         }
+        .burst img{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            }
+        .burst svg{
+            position: absolute;    
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);       
+            width: 100%;
+            stroke: rgb(var(--bg-white));
+        }
         .charimg{
-            width: 80%; 
-            height: 72%;             
-            object-position: top;
-            object-fit: cover; 
+            width: 100%; 
+            height: 100%;
+            overflow: hidden;            
             border-radius: var(--border-radius);
         }
+        .charimg img{
+            width: 100%;
+            transform: translate(0, -16%);
+            object-position: top;
+            object-fit: cover; 
+        }
         .charactername{
+            position: absolute;
+            display: flex;
+            bottom: 0;
+            right: 0;
             margin: 0;
             margin-bottom: var(--margin-min);
             pointer-events: none;
+            font-weight: 900;
+            font-family: "Microsoft YaHei";
+            font-size: 16px;
+            letter-spacing: 2px;
+            z-index: 2;
         }
         .itemhover{
             position: absolute;
@@ -175,80 +251,66 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 0, 0, 0));
-            z-index: -2;
+            background: linear-gradient(to bottom, rgba(var(--content-orange), 0) 80%, rgba(var(--content-orange), 1));
+            z-index: 1;
+            border-radius: var(--border-radius);
         }
         .itemhover:hover{
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 50%, rgba(255, 0, 0, 0.2));
+            background: linear-gradient(to bottom, rgba(var(--content-light-orange), 0) 80%, rgba(var(--content-light-orange), 1));
             
         }
-        .selected1{
-            background-color: rgb(var(--bg-white));
-            border: var(--border-line-heavy) solid rgb(255, 0, 0,0.5);
-            padding-top: 0;
-        }
-        .selected1 .burst{
-            filter: invert(100%);
-        }
-        .selected2{
-            background-color: rgb(var(--bg-white));
-            border: var(--border-line-heavy) solid rgba(0, 255, 76, 0.5);
-            padding-top: 0;
-        }
-        .selected2 .burst{
-            filter: invert(100%);
-        }
-        .selected3{
-            background-color: rgb(var(--bg-white));
-            border: var(--border-line-heavy) solid rgba(0, 60, 255, 0.5);
-            padding-top: 0;
-        }
-        .selected3 .burst{
-            filter: invert(100%);
-        }
-        .selected4{
-            background-color: rgb(var(--bg-white));
-            border: var(--border-line-heavy) solid rgba(255, 0, 234, 0.5);
-            padding-top: 0;
-        }
-        .selected4 .burst{
-            filter: invert(100%);
-        }
-        .selected5{
-            background-color: rgb(var(--bg-white));
-            border: var(--border-line-heavy) solid rgba(255, 166, 0, 0.5);
-            padding-top: 0;
-        }
-        .selected5 .burst{
-            filter: invert(100%);
-        }
-        
-
-        /*企業logo*/
-        .corpbk{
-            position: absolute; 
-            top: 0;
-            left: 0;          
-            width: 100%; 
-            height: 100%;
-            z-index: -2;
-            background-color: rgb(var(--bg-white),0.2);                       
-        }
-        .corplogo{
-            position: relative;
-            top: 0;
-            left: 0;          
-            width: 100%; 
-            height: 100%;
-        }
-        .corplogo img{
+        .selectedCover{
             position: absolute;
-            top: -5%;
-            right: -2%;
-            max-width: 60%;
-            min-width: 100px;
-            z-index: -1;
-        }     
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+            right: 0px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background:rgb(var(--content-blue), 0.3);
+            border: 2px solid rgb(var(--content-blue), 0.8);
+            z-index: 3;
+        }
+        .selectedCover p{
+            display: none;
+        }
+        .blocked .selectedCover{
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            bottom: 0px;
+            right: 0px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background:rgb(var(--content-dark-blue), 0.7);
+            border: 2px solid rgb(var(--content-dark-blue));
+            font-weight: 900;
+            gap: 0;
+            font-family: 'Tahoma';
+            z-index: 3;
+        }
+        .blocked .selectedCover p{
+            display: flex;
+            margin: 0;
+            transform: scaleX(0.8);
+            color: rgb(var(--content-blue));
+        }
+        .blockRound{
+            font-size: 36px;
+        }
+        .selected .selectedCover{
+            display: flex;
+        }
+        .unRegular{
+            display: none;
+        }
+        .SRcharacter .itemhover{
+            background: linear-gradient(to bottom, rgba(var(--content-purple), 0) 80%, rgba(var(--content-purple), 1));
+        }
         
         /*計算區*/
         #bottomFix{
@@ -256,103 +318,146 @@
             display: flex;
             flex-direction: column;
             align-items:flex-end;
-            width: 100%;
+            width: 1048px;
             height: fit-content;
             bottom: 0;
-            left: 0;
-            z-index: 2;
+            z-index: 5;
+            box-shadow: -2px -2px 12px 0 rgb(var(--bg-black), 0.5);
+            
         }
         .caculateArea{
             display: flex;
             flex-direction: column;
-            align-items:flex-start;            
+            align-items: center;            
             box-sizing: border-box;
             width: 100%;
-            height: 150px;
-            background-color: rgba(40, 40, 40, 0.9);
+            height: fit-content;
+            background-color: rgba(var(--bg-dark-gray));
             padding: var(--margin);
             padding-left: var(--margin-big);
             margin: 0;
-            padding-bottom: env(safe-area-inset-bottom); /* 加上安全區域的底部內邊距 */
-            padding-bottom: constant(safe-area-inset-bottom);
-            
+            gap: var(--margin);
+            border-radius: 8px 8px 0 0;      
         }
-        .note{
-            padding: 0;
-            margin: 0;
-            color: rgb(var(--content-mainColor));
-            height: 20px;
+        .round-container{
             display: flex;
-            align-items:center;
-            font-size: 14px;
-            gap: 12px;
+            gap: var(--margin);
         }
+        .round{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-color: rgb(var(--bg-white));
+            color: rgb(var(--bg-dark-gray));
+            height: 24px;
+            width: 54px;
+            border-radius: var(--border-radius);
+            font-size: 8px;
+            font-weight: 900;
+            font-family: 'Tahoma';
+            box-shadow: 1px 1px 1px 0 rgb(var(--bg-black), 0.3);
+        }
+        .round p{
+            margin: 0;            
+            transform: scaleX(0.8);
+        }
+        .roundNumber{
+            font-size: 12px;            
+        }
+        .selectedRound{
+            background-color: rgb(var(--content-blue));
+            color: rgb(var(--bg-white));
+        }
+
         .caculate{
             position: relative;
             align-items:center;
+            justify-content: center;
             display: flex;
             box-sizing: border-box;
             bottom: 0;
             left: 0;
-            width: 100%;
-            height: 100%;
+            gap: var(--margin);
         }
         .cacuplace{
-            width: 72px;
-            height: 100px;
+            width: 60px;
+            height: 60px;
             background-color: rgba(87, 87, 87, 0.7);
-            margin: var(--margin-min);
-            border-radius: var(--border-radius);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        .cacuplace .item{
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+        .cacuplace .item .charactername, .cacuplace .item .selectedCover{
+            display: none;
         }
         
+        .resultArea{
+            position: relative;            
+            flex-direction: column;
+            padding: var(--margin);
+            padding-bottom: 4px;
+            border-radius: 5px;
+            margin-bottom: var(--margin);            
+            border: 2px solid rgb(var(--bg-dark-gray), 0.8);
+        }
         .result{
             display: flex;
-            flex-direction: column;
-            align-items: left;
+            align-items: end;
             justify-content: center;
-            box-sizing: border-box;
-            width:100px;
-            height: 100px;
-            margin: var(--margin-min);
-            padding: var(--margin-big);
+            height: 24px;
             gap: var(--margin-big);
-            background-color: rgb(var(--bg-white));
-            color: #585858;
             border-radius: var(--border-radius);
             font-size: 16px;
+            margin: var(--margin-min);            
         }
-        .burstResult{
-            height: fit-content;            
-            font-weight: var(--font-weight-heavy);             
+        .burstResult{            
+            font-weight: var(--font-weight-heavy);            
             margin: 0;
             padding: 0;
-            margin-top: var(--margin-min);
+            line-height: 1em;
         }
-        .burstResult p {
+        .previousResult{
+            position: absolute;
+            top: 10;
+            right: var(--margin-big);
             margin: 0;
-        }
-        .previousResult p {
-            margin: 0;            
+            padding-left: var(--margin-min);
+            padding-right: var(--margin-min);            
             font-size: 12px;
+            border-radius: 4px;
+        }
+        .initial, .over4RL{
+            color: rgb(var(--bg-white), 0.5);
         }
         .twoRL{
-            background-color: #ffabab;
-        }
+            border: 2px solid #ff5454;            
+            color: #ff5454;
+        }        
         .twofiveRL{
-            background-color: #fff3b1;
+            border: 2px solid #ffa44f;
+            color: #ffa44f;
         }
         .threeRL{
-            background-color: #dcffbb;
+            border: 2px solid #ffe344;
+            color: #ffe344;
         }
         .threefiveRL{
-            background-color: #c2fffa;
+            border: 2px solid #9dff4c;
+            color: #9dff4c;
         }
         .fourRL{
-            background-color: #cdaeff;
+            border: 2px solid #51ff94;
+            color: #51ff94;
         }
 
 
-        /*保留區*/
+        /*
         #togglePreserve{
             position: relative;
             display: none;
@@ -404,56 +509,33 @@
             object-fit: cover; 
             border-radius: var(--border-radius);
         }
+            保留區*/
 
         @media (max-width: 1024px) {
             .container {
-                flex-direction: column;
-            }
-            #Elysioncolum, #Tetracolum, #Missiliscolum, #Pilgrimcolum, #Abnormalcolum{
                 width: 100%;
-            }
-            .caculateArea{
-                height: fit-content;
-                padding-bottom: env(safe-area-inset-bottom); /* 加上安全區域的底部內邊距 */
-                padding-bottom: constant(safe-area-inset-bottom);
-            }
-            .caculate{
-                flex-wrap: wrap; 
-                align-content: flex-start;
-            }
-            .blank{
-            height: 200px;
-            }
-            
+            }         
         }
-        @media (max-width: 560px) {
-            .caculateArea{
-                height: 210px;
-            }
-            .blank{
-            height: 320px;
-            }
+        @media (max-width: 560px) {  
+            .container {
+                padding-top: 84px; 
+            }                   
             .preserveimg{
                 width: 40px; 
                 height: 48px;             
                 object-position: top;
                 object-fit: cover; 
             }
-            .cacuplace{
+            .filterBG{
                 height: 80px;
             }
-            .cacuplace .charimg{
-                height: 95%;
+            #filter-container{
+                width: 375px; 
             }
-            .cacuplaceItem{
-                height: 90%;
-            }
-            .caculateName{
-                display: none;
-            }
-            .result{
-                height: 80px;
-                gap:var(--margin-min);
+            #burstFilter{
+                position: absolute;
+                top: 36px;
+                left: 148px;
             }
         }
 
@@ -462,155 +544,116 @@
 
 </head>
 <body>
-
-    <div class="container">
-        <div class="column" id="Elysioncolum">
-            <div class="corpbk"></div>
-            <div class="corplogo">
-                <img  src="https://sg-tools-cdn.blablalink.com/icon/atlas_common_corp/icn_corp_01.webp">
-            </div>
-            <p class="enterprise">Elysion</p>
-            <div class="columnin" id="Elysionpvp"></div>
-            <div class="show" id="showElysion">
-                <p>其他角色</p>
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.2921 8.23528C5.67043 8.58824 6.32957 8.58824 6.7079 8.23528L9.85331 5.30078C10.0644 5.10381 10.0454 4.80044 9.81083 4.62317C9.57626 4.44591 9.21495 4.46187 9.00383 4.65884C9.00383 4.65884 7.41927 5.77999 6 5.77999C4.58073 5.77999 2.99617 4.65884 2.99617 4.65884C2.78505 4.46187 2.42374 4.44591 2.18917 4.62317C1.95459 4.80044 1.93557 5.10381 2.14669 5.30078L5.2921 8.23528Z" fill="#ffffff"/>
+    <div class="filterBG">
+        <svg width="540" height="80" xmlns="http://www.w3.org/2000/svg">
+            <polygon points="0,0 540,0 520,40 30,40"/>
+          </svg>
+    </div>
+    <div id="filter-container">
+        <div id="corpSort" class="sort">            
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M3 6C3 5 3 5 4 5H20C20 5 21 5 21 6C21 6 20 7 20 7H4C3 7 3 6 3 6Z" />
+                <path d="M3 12C3 11 3 11 4 11H16C16 11 17 11 17 12C17 12 16 13 16 13H4C3 13 3 12 3 12Z"/>
+                <path d="M3 18C3 17 3 17 4 17H12C12 17 13 17 13 18C13 18 12 19 12 19H4C3 19 3 18 3 18Z"/>
+            </svg> 
+            <p>企業</p>
+        </div>
+        <div id="speedSort"class="sort">            
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+                <path d="M3 6C3 5 3 5 4 5H20C20 5 21 5 21 6C21 6 20 7 20 7H4C3 7 3 6 3 6Z" />
+                <path d="M3 12C3 11 3 11 4 11H16C16 11 17 11 17 12C17 12 16 13 16 13H4C3 13 3 12 3 12Z"/>
+                <path d="M3 18C3 17 3 17 4 17H12C12 17 13 17 13 18C13 18 12 19 12 19H4C3 19 3 18 3 18Z"/>
+            </svg>
+            <p>充能</p>
+        </div>
+        <div id="burstFilter" class="Filter">            
+            <div id="burst01" class="filterBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
+                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
                 </svg>
+                <img src="iconimg/burst_01.webp">
             </div>
-            <div class="columnin" id="Elysion">
-                <div class="hide" id="hideElysion">
-                    <p>隱藏</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.7079 3.76472C6.32957 3.41176 5.67043 3.41176 5.2921 3.76472L2.14669 6.69922C1.93557 6.89619 1.95459 7.19956 2.18917 7.37683C2.42374 7.55409 2.78505 7.53813 2.99617 7.34116C2.99617 7.34116 4.58073 6.22001 6 6.22001C7.41927 6.22001 9.00383 7.34117 9.00383 7.34117C9.21495 7.53813 9.57626 7.5541 9.81083 7.37683C10.0454 7.19956 10.0644 6.89619 9.85331 6.69922L6.7079 3.76472Z" fill="#ffffff"/>
-                    </svg>
-                </div>
+            <div id="burst02" class="filterBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
+                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
+                </svg>
+                <img src="iconimg/burst_02.webp">
+            </div>
+            <div id="burst03" class="filterBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
+                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
+                </svg>
+                <img src="iconimg/burst_03.webp">
             </div>
         </div>
-        <div class="column" id="Missiliscolum">
-            <div class="corpbk"></div> 
-            <div class="corplogo">
-                <img src="https://sg-tools-cdn.blablalink.com/icon/atlas_common_corp/icn_corp_02.webp">
-            </div>            
-            <p class="enterprise">Missilis</p>
-            <div class="columnin" id="Missilispvp"></div>
-            <div class="show" id="showMissilis">
-                <p>其他角色</p>
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.2921 8.23528C5.67043 8.58824 6.32957 8.58824 6.7079 8.23528L9.85331 5.30078C10.0644 5.10381 10.0454 4.80044 9.81083 4.62317C9.57626 4.44591 9.21495 4.46187 9.00383 4.65884C9.00383 4.65884 7.41927 5.77999 6 5.77999C4.58073 5.77999 2.99617 4.65884 2.99617 4.65884C2.78505 4.46187 2.42374 4.44591 2.18917 4.62317C1.95459 4.80044 1.93557 5.10381 2.14669 5.30078L5.2921 8.23528Z" fill="#ffffff"/>
+        <div id="corpFilter" class="Filter">            
+            <div id="corp01" class="filterBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
+                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
                 </svg>
+                <img src="iconimg/corp_01.webp">
             </div>
-            <div class="columnin" id="Missilis">
-                <div class="hide" id="hideMissilis">
-                    <p>隱藏</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.7079 3.76472C6.32957 3.41176 5.67043 3.41176 5.2921 3.76472L2.14669 6.69922C1.93557 6.89619 1.95459 7.19956 2.18917 7.37683C2.42374 7.55409 2.78505 7.53813 2.99617 7.34116C2.99617 7.34116 4.58073 6.22001 6 6.22001C7.41927 6.22001 9.00383 7.34117 9.00383 7.34117C9.21495 7.53813 9.57626 7.5541 9.81083 7.37683C10.0454 7.19956 10.0644 6.89619 9.85331 6.69922L6.7079 3.76472Z" fill="#ffffff"/>
-                    </svg>
-                </div>
+            <div id="corp02" class="filterBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
+                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
+                </svg>
+                <img src="iconimg/corp_02.webp">
+            </div>
+            <div id="corp03" class="filterBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
+                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
+                </svg>
+                <img src="iconimg/corp_03.webp">
+            </div>
+            <div id="corp04" class="filterBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
+                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
+                </svg>
+                <img src="iconimg/corp_04.webp">
+            </div>
+            <div id="corp05" class="filterBtn">
+                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
+                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
+                </svg>
+                <img src="iconimg/corp_05.webp">
             </div>
         </div>
-        <div class="column" id="Tetracolum">
-            <div class="corpbk"></div> 
-            <div class="corplogo">
-                <img src="https://sg-tools-cdn.blablalink.com/icon/atlas_common_corp/icn_corp_03.webp">
-            </div>
-            <p class="enterprise">Tetra</p>
-            <div class="columnin" id="Tetrapvp"></div>
-            <div class="show" id="showTetra">
-                <p>其他角色</p>
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.2921 8.23528C5.67043 8.58824 6.32957 8.58824 6.7079 8.23528L9.85331 5.30078C10.0644 5.10381 10.0454 4.80044 9.81083 4.62317C9.57626 4.44591 9.21495 4.46187 9.00383 4.65884C9.00383 4.65884 7.41927 5.77999 6 5.77999C4.58073 5.77999 2.99617 4.65884 2.99617 4.65884C2.78505 4.46187 2.42374 4.44591 2.18917 4.62317C1.95459 4.80044 1.93557 5.10381 2.14669 5.30078L5.2921 8.23528Z" fill="#ffffff"/>
-                </svg>
-            </div>
-            <div class="columnin" id="Tetra">
-                <div class="hide" id="hideTetra">
-                    <p>隱藏</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.7079 3.76472C6.32957 3.41176 5.67043 3.41176 5.2921 3.76472L2.14669 6.69922C1.93557 6.89619 1.95459 7.19956 2.18917 7.37683C2.42374 7.55409 2.78505 7.53813 2.99617 7.34116C2.99617 7.34116 4.58073 6.22001 6 6.22001C7.41927 6.22001 9.00383 7.34117 9.00383 7.34117C9.21495 7.53813 9.57626 7.5541 9.81083 7.37683C10.0454 7.19956 10.0644 6.89619 9.85331 6.69922L6.7079 3.76472Z" fill="#ffffff"/>
-                    </svg>
-                </div>
+        <div id="unRegularBtn">
+            <p>非常用角色</p>
+            <div class="SHstatus">
+                <p>Show</p>
             </div>
         </div>
-        <div class="column" id="Pilgrimcolum">
-            <div class="corpbk"></div> 
-            <div class="corplogo" >
-                <img src="https://sg-tools-cdn.blablalink.com/icon/atlas_common_corp/icn_corp_04.webp">
-            </div>
-            <p class="enterprise">Pilgrim</p>
-            <div class="columnin" id="Pilgrimpvp"></div>
-            <div class="show" id="showPilgrim">
-                <p>其他角色</p>
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.2921 8.23528C5.67043 8.58824 6.32957 8.58824 6.7079 8.23528L9.85331 5.30078C10.0644 5.10381 10.0454 4.80044 9.81083 4.62317C9.57626 4.44591 9.21495 4.46187 9.00383 4.65884C9.00383 4.65884 7.41927 5.77999 6 5.77999C4.58073 5.77999 2.99617 4.65884 2.99617 4.65884C2.78505 4.46187 2.42374 4.44591 2.18917 4.62317C1.95459 4.80044 1.93557 5.10381 2.14669 5.30078L5.2921 8.23528Z" fill="#ffffff"/>
-                </svg>
-            </div>
-            <div class="columnin" id="Pilgrim">
-                <div class="hide" id="hidePilgrim">
-                    <p>隱藏</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.7079 3.76472C6.32957 3.41176 5.67043 3.41176 5.2921 3.76472L2.14669 6.69922C1.93557 6.89619 1.95459 7.19956 2.18917 7.37683C2.42374 7.55409 2.78505 7.53813 2.99617 7.34116C2.99617 7.34116 4.58073 6.22001 6 6.22001C7.41927 6.22001 9.00383 7.34117 9.00383 7.34117C9.21495 7.53813 9.57626 7.5541 9.81083 7.37683C10.0454 7.19956 10.0644 6.89619 9.85331 6.69922L6.7079 3.76472Z" fill="#ffffff"/>
-                    </svg>
-                </div>
-            </div>
+    </div>
+    <div class="container">        
+        <div id="column">
         </div>
-        <div class="column" id="Abnormalcolum">
-            <div class="corpbk"></div> 
-            <div class="corplogo">
-                <img src="https://sg-tools-cdn.blablalink.com/icon/atlas_common_corp/icn_corp_05.webp">
-            </div>
-            <p class="enterprise">Abnormal</p>
-            <div class="columnin" id="Abnormalpvp"></div>
-            <div class="show" id="showAbnormal">
-                <p>其他角色</p>
-                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M5.2921 8.23528C5.67043 8.58824 6.32957 8.58824 6.7079 8.23528L9.85331 5.30078C10.0644 5.10381 10.0454 4.80044 9.81083 4.62317C9.57626 4.44591 9.21495 4.46187 9.00383 4.65884C9.00383 4.65884 7.41927 5.77999 6 5.77999C4.58073 5.77999 2.99617 4.65884 2.99617 4.65884C2.78505 4.46187 2.42374 4.44591 2.18917 4.62317C1.95459 4.80044 1.93557 5.10381 2.14669 5.30078L5.2921 8.23528Z" fill="#ffffff"/>
-                </svg>
-            </div>
-            <div class="columnin" id="Abnormal">
-                <div class="hide" id="hideAbnormal">
-                    <p>隱藏</p>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 12 12" fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M6.7079 3.76472C6.32957 3.41176 5.67043 3.41176 5.2921 3.76472L2.14669 6.69922C1.93557 6.89619 1.95459 7.19956 2.18917 7.37683C2.42374 7.55409 2.78505 7.53813 2.99617 7.34116C2.99617 7.34116 4.58073 6.22001 6 6.22001C7.41927 6.22001 9.00383 7.34117 9.00383 7.34117C9.21495 7.53813 9.57626 7.5541 9.81083 7.37683C10.0454 7.19956 10.0644 6.89619 9.85331 6.69922L6.7079 3.76472Z" fill="#ffffff"/>
-                    </svg>
-                </div>
-            </div>
-        </div>
-  </div>
-  <div class="speed-container">
-  </div>
-
-  <div class="blank">
-  </div>
+  </div>  
   
     <div id="bottomFix">
-        <button id="togglePreserve">Hide</button>
-        <div id="preserve-container">
-        </div>
-        <div class="caculateArea">   
-            
-            <div class="note">
-                <p>*珍藏品 #技能2滿等</p>
-                <button id="toggleSort">切換排序方式</button>                
-            </div>
-            <div class="caculate">
-                <div id="cacuplace1" class="cacuplace">
+        <div class="caculateArea">
+            <div class="round-container">
+                <div id="round0" class="round">
+                    <p>ROUND</p>
+                    <p class="roundNumber">01</p>
                 </div>
-                <div id="cacuplace2" class="cacuplace">
+                <div id="round1" class="round">
+                    <p>ROUND</p>
+                    <p class="roundNumber">02</p>
                 </div>
-                <div id="cacuplace3" class="cacuplace">
+                <div id="round2" class="round">
+                    <p>ROUND</p>
+                    <p class="roundNumber">03</p>
                 </div>
-                <div id="cacuplace4" class="cacuplace">
+                <div id="round3" class="round">
+                    <p>ROUND</p>
+                    <p class="roundNumber">04</p>
                 </div>
-                <div id="cacuplace5" class="cacuplace">
+                <div id="round4" class="round">
+                    <p>ROUND</p>
+                    <p class="roundNumber">05</p>
                 </div>
-                <div id="result" class="result">
-                    <p style="color: #b4b4b4;">點選角色開始計算</p>
-                </div>
-                <div id="preserveBtn">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                        <path fill-rule="evenodd" clip-rule="evenodd" d="M2 8C2 5.23858 4.23858 3 7 3H17C19.7614 3 22 5.23858 22 8V14C22 16.7614 19.7614 19 17 19C16.4477 19 16 18.5523 16 18C16 17.4477 16.4477 17 17 17C18.6569 17 20 15.6569 20 14V8C20 6.34315 18.6569 5 17 5H7C5.34315 5 4 6.34315 4 8V14C4 15.6569 5.34315 17 7 17C7.55228 17 8 17.4477 8 18C8 18.5523 7.55228 19 7 19C4.23858 19 2 16.7614 2 14V8ZM13 11.5858L15.2929 13.8787C15.6834 14.2692 16.3166 14.2692 16.7071 13.8787C17.0976 13.4882 17.0976 12.855 16.7071 12.4645L14.1213 9.87868C12.9497 8.70711 11.0503 8.70711 9.87868 9.87868L7.29289 12.4645C6.90237 12.855 6.90237 13.4882 7.29289 13.8787C7.68342 14.2692 8.31658 14.2692 8.70711 13.8787L11 11.5858V20.0833C11 20.5896 11.4477 21 12 21C12.5523 21 13 20.5896 13 20.0833V11.5858Z" fill="#ffffff"/>
-                    </svg>
-                </div>                
-            </div>
+            </div>            
         </div>        
     </div>
     
@@ -671,170 +714,156 @@
     ];
 
     //角色資訊：企業(後綴pvp為常用角), 英文, 中文, 編號, 速度級
-    var characterUnsort = [
-        //Elysion
-        ['Elysion', 'Neon: Blue Ocean', '泳尼恩', '014', 'Crown', '03'],
-        ['Elysion', 'Rapi: Red Hood', '紅帽拉毗', '016', 'Crown', '03'],
-        ['Elysion', 'Signal', '西格娜', '022', 'Liter', '03'],
-        ['Elysion', 'Poli', '波莉', '030', 'Naga', '02'],
-        ['Elysion', 'Miranda', '米蘭達', '032', 'Liter', '01'],
-        ['Elysion', 'Quiry', '基里', '033', 'Noise', '03'],
-        ['Elysion', 'D', 'D', '040', 'Liter', '03'],
-        ['Elysion', 'D: Killer Wife', '人妻 D', '043', 'Maxwell', '01'],
-        ['Elysion', 'Brid', '布麗德', '070', 'Blanc', '03'],
-        ['Elysion', 'Soline', '索林', '071', 'Soline', '03'],
-        ['Elysion', 'Diesel', '迪塞爾', '072', 'Crown', '02'],
-        ['Elysion', 'Emma', '艾瑪', '090', 'Crown', '01'],
-        ['Elysion', 'Vesti', '貝斯蒂', '091', 'Noise', '03'],
-        ['Elysion', 'Eunhwa', '銀華', '092', 'Rouge', '02'],
-        ['Elysionpvp', 'Privaty', '普麗瓦蒂', '170', 'Blanc', '03'],
-        ['Elysion', 'Guillotine', '吉蘿婷', '180', 'Crown', '03'],
-        ['Elysionpvp', 'Maiden', '梅登', '181', 'Noir', '03'],
-        ['Elysion', 'Guillotine: Winter Slayer', '寒吉', '182', 'Blanc', '03'],
-        ['Elysionpvp', 'Maiden: Ice Rose', '冰梅登', '183', 'Maiden: Ice Rose', '03'],
-        ['Elysion', 'Privaty: Unkind Maid', '兔普麗', '313', 'Privaty: Unkind Maid', '03'],
-        ['Elysion', 'Marciana', '瑪律恰那', '321', 'Naga', '02'],
-        ['Elysion', 'Mast', '馬斯特', '350', 'Liter', '02'],
-        ['Elysionpvp', 'Helm', '海倫*', '352', 'Helm', '03'],
-        ['Elysion', 'Helm: Aquamarine', '泳海倫', '353', 'Blanc', '02'],
-        ['Elysion', 'Mast: Romantic Maid', '女僕馬斯特', '354', 'Crown', '02'],
-        ['Elysion', 'Anchor: Innocent Maid', '女僕安克', '355', 'Noise', '02'],
-        ['Elysion', 'Zwei', '茨瓦伊', '390', 'Zwei', '01'],
-        ['Elysion', 'Phantom', '潘托姆', '580', 'Moran', '03'],
-
-        //Missilis
-        ["Missilispvp", "Centi", "桑迪", "080", "Centi","02"],
-        ["Missilispvp", "Jackal", "豺狼", "111", "Jackal","01"],
-        ["Missilispvp", "Drake", "德雷克*", "101", "Drake","03"],
-        ["Missilispvp", "Pepper", "佩珀", "131", "Noir","01"],
-        ["Missilispvp", "Laplace", "拉普拉斯*", "100", "Laplace","03"],
-        ["Missilispvp", "Anne: Miracle Fairy", "聖誕安妮", "121", "Noise","02"],
-        ["Missilispvp", "Tia", "蒂亞", "451", "Noise","01"],
-        ["Missilispvp", "Trina", "特蕾娜", "412", "Trina","02"],
-        ["Missilis","Maxwell","麥斯威爾","102","Maxwell","03"],
-        ["Missilis", "Yuni", "尤妮", "160", "N102","02"],
-        ["Missilis", "Liter", "麗塔", "082", "Liter","01"],
-        ["Missilis", "Naga", "娜嘉", "450", "Naga","02"],
-        ["Missilis", "Julia", "尤莉亞", "150", "Blanc","03"],
-        ["Missilis", "Crow", "克拉烏", "110", "Soline","03"],
-        ["Missilis", "Admi", "艾德米", "172", "Admi","02"],
-        ["Missilis", "Guilty", "吉爾提", "400", "Naga","02"],
-        ["Missilis", "Sin", "森", "401", "Blanc","02"],
-        ["Missilis", "Quency", "坎西", "402", "Soline","02"],
-        ["Missilis", "Epinel", "艾菲涅爾", "241", "Liter","03"],
-        ["Missilis", "Tove", "托比", "192", "Blanc","01"],
-        ["Missilis", "Elegg", "伊萊格", "500", "Crown","02"],
-        ["Missilis", "Kilo", "吉洛", "361", "Crown","03"],
-        ["Missilis", "Trony", "特羅尼", "501", "Maxwell","03"],
-        ["Missilis", "Ein", "愛因", "391", "Ein","03"],
-        ["Missilis", "Quency: Escape Queen", "怪盜坎西", "403", "Ludmilla","03"],
-        ["Missilis", "Flora", "芙羅拉", "411", "Crown","02"],
-        ["Missilis", "Mana", "瑪娜#", "290", "Mana","03"],
-
-        //Tetra
-        ["Tetrapvp", "Anis", "SR阿妮斯", "012", "Anis","02"],
-        ["Tetrapvp", "Blanc", "布蘭兒", "270", "Blanc","02"],
-        ["Tetrapvp", "Rumani", "魯瑪妮", "240", "Rumani","01"],
-        ["Tetrapvp", "Viper", "毒蛇", "112", "Noir","02"],
-        ["Tetrapvp", "Sugar", "舒格", "140", "Noir","03"],
-        ["Tetrapvp", "Noir", "諾亞爾", "271", "Noir","03"],
-        ["Tetrapvp", "Soda: Twinkling Bunny", "索達兔", "314", "Noir","03"],
-        ["Tetrapvp", "Noise", "諾伊斯", "430", "Noise","01"],
-        ["Tetrapvp", "Biscuit", "餅乾", "381", "Noise","02"],
-        ["Tetrapvp", "Bay", "貝伊", "550", "Noise","02"],
-        ["Tetrapvp", "Anis: Sparkling Summer", "泳阿尼斯", "015", "Anis: Sparkling Summer","03"],
-        ["Tetrapvp", "Moran", "牡丹", "281", "Moran","01"],
-        ["Tetrapvp", "Rosanna", "羅珊娜", "280", "Rosanna","01"],
-        ["Tetrapvp", "Alice", "愛麗絲", "191", "Alice","03"],
-        ["Tetra", "Rouge", "露姬", "272", "Rouge","01"],
-        ["Tetra", "Ludmilla", "魯德米拉", "190", "Ludmilla","01"],
-        ["Tetra", "Exia", "艾可希雅", "210", "Maxwell","01"],
-        ["Tetra", "Frima", "普琳瑪", "142", "Frima","01"],
-        ["Tetra", "Mary", "梅里", "130", "Naga","01"],
-        ["Tetra", "Milk", "米爾克", "141", "Maxwell","01"],
-        ["Tetra", "Yulha", "尤爾夏", "171", "Yulha","03"],
-        ["Tetra", "Rupee", "露菲", "200", "Blanc","02"],
-        ["Tetra", "Yan", "楊", "201", "N102","02"],
-        ["Tetra", "Dolla", "朵拉", "202", "Maxwell","02"],
-        ["Tetra", "Novel", "諾薇兒", "212", "Liter","02"],
-        ["Tetra", "Folkwang", "富克旺", "242", "Blanc","02"],
-        ["Tetra", "Sakura", "櫻花", "282", "Admi","01"],
-        ["Tetra", "Cocoa", "可可", "311", "Maxwell","01"],
-        ["Tetra", "Soda", "索達", "312", "Crown","01"],
-        ["Tetra", "Rei", "萊伊", "392", "Liter","01"],
-        ["Tetra", "Aria", "阿莉亞", "432", "Crown","02"],
-        ["Tetra", "Volume", "沃綸姆", "431", "Liter","01"],
-        ["Tetra", "Rupee: Winter Shopper", "冬露菲", "203", "Blanc","01"],
-        ["Tetra", "Mary: Bay Goddess", "泳梅里", "132", "Frima","01"],
-        ["Tetra", "Nero", "尼羅", "380", "Liter","02"],
-        ["Tetra", "Ludmilla: Winter Owner", "冬魯德米拉", "194", "Crown","03"],
-        ["Tetra", "Mica: Snow Buddy", "聖誕米卡#", "062", "Mica: Snow Buddy","01"],
-        ["Tetra", "Leona", "萊昂納", "382", "Naga","02"],
-        ["Tetra", "Ade", "愛德", "310", "Moran","02"],
-        ["Tetra", "Alice: Wonderland Bunny", "愛麗絲兔", "195", "Liter","01"],
-        ["Tetra", "Clay", "克雷伊", "551", "Liter","02"],
-        ["Tetra", "Rosanna: Chic Ocean", "泳羅珊娜", "283", "Blanc","02"],
-        ["Tetra", "Sakura: Bloom in Summer", "泳櫻花", "284", "Sakura: Bloom in Summer","03"],
-        ["Tetra", "Bready", "布蕾德", "520", "Maxwell","03"],//暫定同麥斯 圖片網址有問題
-
-        //Pilgrim
-        ["Pilgrimpvp", "Noah", "諾雅", "232", "Noah","02"],
-        ["Pilgrimpvp", "Rapunzel", "長髮公主", "221", "Rapunzel","01"],
-        ["Pilgrimpvp", "Scarlet", "紅蓮", "222", "Scarlet","03"],
-        ["Pilgrimpvp", "Scarlet: Black Shadow", "暗影紅蓮", "225", "Scarlet: Black Shadow","03"],
-        ["Pilgrimpvp", "Red Hood", "小紅帽", "470", "Red Hood", "all"],
-        ["Pilgrimpvp", "Cinderella", "灰姑娘", "511", "Cinderella","03"],
-        ["Pilgrim", "Crown", "皇冠", "330", "Crown","02"],
-        ["Pilgrim", "Snow White", "白雪公主", "220", "Moran","03"],
-        ["Pilgrim", "Isabel", "伊莎貝爾", "231", "Naga","03"],
-        ["Pilgrim", "Harran", "哈蘭", "230", "Harran","03"],
-        ["Pilgrim", "Modernia", "神罰", "260", "Modernia","03"],
-        ["Pilgrim", "Nihilister", "尼希利斯塔", "261", "Nihilister","02"],
-        ["Pilgrim", "Dorothy", "桃樂絲", "233", "Blanc","01"],
-        ["Pilgrim", "Snow White: Innocent Days", "小白雪", "224", "Snow White: Innocent Days","03"],
-        ["Pilgrim", "Rapunzel: Pure Grace", "小長髮", "226", "Maxwell","01"],
-        ["Pilgrim", "Grave", "格拉維", "514", "Grave","02"],
-
-        //Abnormal
-        ["Abnormalpvp", "Emilia", "愛蜜莉雅", "821", "Emilia","03"],
-        ["Abnormal", "Makima", "真紀真", "800", "Liter","02"],
-        ["Abnormal", "Power", "帕瓦", "801", "Noise","03"],
-        ["Abnormal", "2B", "2B", "810", "Blanc","03"],
-        ["Abnormal", "A2", "A2", "811", "A2","03"],
-        ["Abnormal", "Rem", "雷姆", "820", "Crown","02"],
-        ["Abnormal", "Asuka", "明日香", "830", "Asuka","03"],
-        ["Abnormal", "Rei", "零", "831", "Crown","03"],
-        ["Abnormal", "Mari", "真理", "832", "Maxwell","02"],
-        ["Abnormal", "Asuka: WILLE", "風明日香", "835", "Crown","03"],//暫定與皇冠一樣
-        ["Abnormal", "Rei (Tentative Name)", "零 暫稱", "834", "Moran","03"]//暫定與牡丹一樣
+    var character = [        
+        ['Elysion', 'Neon: Blue Ocean', '泳尼恩', '014', 'Crown', '03', 'unRegular'],
+        ['Elysion', 'Rapi: Red Hood', '紅帽拉毗', '016', 'Crown', '03', 'unRegular'],
+        ['Elysion', 'Signal', '西格娜', '022', 'Liter', '03', 'unRegular'],
+        ['Elysion', 'Poli', '波莉', '030', 'Naga', '02', 'unRegular'],
+        ['Elysion', 'Miranda', '米蘭達', '032', 'Liter', '01', 'unRegular'],
+        ['Elysion', 'Quiry', '基里', '033', 'Noise', '03', 'unRegular'],
+        ['Elysion', 'D', 'D', '040', 'Liter', '03', 'unRegular'],
+        ['Elysion', 'D: Killer Wife', '人妻 D', '043', 'Maxwell', '01', 'unRegular'],
+        ['Elysion', 'Brid', '布麗德', '070', 'Blanc', '03', 'unRegular'],
+        ['Elysion', 'Soline', '索林', '071', 'Blanc', '03', 'unRegular'],
+        ['Elysion', 'Diesel', '迪塞爾', '072', 'Crown', '02', 'unRegular'],
+        ['Elysion', 'Emma', '艾瑪', '090', 'Crown', '01', 'unRegular'],
+        ['Elysion', 'Vesti', '貝斯蒂', '091', 'Noise', '03', 'unRegular'],
+        ['Elysion', 'Eunhwa', '銀華', '092', 'Rouge', '02', 'unRegular'],
+        ['Elysion', 'Privaty', '普麗瓦蒂', '170', 'Blanc', '03', 'regular'],
+        ['Elysion', 'Guillotine', '吉蘿婷', '180', 'Crown', '03', 'unRegular'],
+        ['Elysion', 'Maiden', '梅登', '181', 'Noir', '03', 'regular'],
+        ['Elysion', 'Guillotine: Winter Slayer', '寒吉', '182', 'Blanc', '03', 'unRegular'],
+        ['Elysion', 'Maiden: Ice Rose', '冰梅登', '183', 'Maiden: Ice Rose', '03', 'regular'],
+        ['Elysion', 'Privaty: Unkind Maid', '兔普麗', '313', 'Privaty: Unkind Maid', '03', 'unRegular'],
+        ['Elysion', 'Marciana', '瑪律恰那', '321', 'Naga', '02', 'unRegular'],
+        ['Elysion', 'Mast', '馬斯特', '350', 'Liter', '02', 'unRegular'],
+        ['Elysion', 'Helm', '海倫*', '352', 'Helm', '03', 'regular'],
+        ['Elysion', 'Helm: Aquamarine', '泳海倫', '353', 'Blanc', '02', 'unRegular'],
+        ['Elysion', 'Mast: Romantic Maid', '女僕馬斯特', '354', 'Crown', '02', 'unRegular'],
+        ['Elysion', 'Anchor: Innocent Maid', '女僕安克', '355', 'Noise', '02', 'unRegular'],
+        ['Elysion', 'Zwei', '茨瓦伊', '390', 'Zwei', '01', 'unRegular'],
+        ['Elysion', 'Phantom', '潘托姆', '580', 'Moran', '03', 'unRegular'],
+        ['Missilis', 'Centi', '桑迪', '080', 'Centi', '02', 'regular'],
+        ['Missilis', 'Jackal', '豺狼', '111', 'Jackal', '01', 'regular'],
+        ['Missilis', 'Drake', '德雷克*', '101', 'Drake', '03', 'regular'],
+        ['Missilis', 'Pepper', '佩珀', '131', 'Noir', '01', 'regular'],
+        ['Missilis', 'Laplace', '拉普拉斯*', '100', 'Laplace', '03', 'regular'],
+        ['Missilis', 'Anne: Miracle Fairy', '聖誕安妮', '121', 'Noise', '02', 'regular'],
+        ['Missilis', 'Tia', '蒂亞', '451', 'Noise', '01', 'regular'],
+        ['Missilis', 'Trina', '特蕾娜', '412', 'Trina', '02', 'regular'],
+        ['Missilis', 'Maxwell', '麥斯威爾', '102', 'Maxwell', '03', 'unRegular'],
+        ['Missilis', 'Yuni', '尤妮', '160', 'N102', '02', 'unRegular'],
+        ['Missilis', 'Liter', '麗塔', '082', 'Liter', '01', 'unRegular'],
+        ['Missilis', 'Naga', '娜嘉', '450', 'Naga', '02', 'unRegular'],
+        ['Missilis', 'Julia', '尤莉亞', '150', 'Blanc', '03', 'unRegular'],
+        ['Missilis', 'Crow', '克拉烏', '110', 'Soline', '03', 'unRegular'],
+        ['Missilis', 'Admi', '艾德米', '172', 'Admi', '02', 'unRegular'],
+        ['Missilis', 'Guilty', '吉爾提', '400', 'Naga', '02', 'unRegular'],
+        ['Missilis', 'Sin', '森', '401', 'Blanc', '02', 'unRegular'],
+        ['Missilis', 'Quency', '坎西', '402', 'Soline', '02', 'unRegular'],
+        ['Missilis', 'Epinel', '艾菲涅爾', '241', 'Liter', '03', 'unRegular'],
+        ['Missilis', 'Tove', '托比', '192', 'Blanc', '01', 'unRegular'],
+        ['Missilis', 'Elegg', '伊萊格', '500', 'Crown', '02', 'unRegular'],
+        ['Missilis', 'Kilo', '吉洛', '361', 'Crown', '03', 'unRegular'],
+        ['Missilis', 'Trony', '特羅尼', '501', 'Maxwell', '03', 'unRegular'],
+        ['Missilis', 'Ein', '愛因', '391', 'Ein', '03', 'unRegular'],
+        ['Missilis', 'Quency: Escape Queen', '怪盜坎西', '403', 'Ludmilla', '03', 'unRegular'],
+        ['Missilis', 'Flora', '芙羅拉', '411', 'Crown', '02', 'unRegular'],
+        ['Missilis', 'Mana', '瑪娜#', '290', 'Mana', '03', 'unRegular'],
+        ['Tetra', 'Anis', 'SR阿妮斯', '012', 'Anis', '02', 'regular'],
+        ['Tetra', 'Blanc', '布蘭兒', '270', 'Blanc', '02', 'regular'],
+        ['Tetra', 'Rumani', '魯瑪妮', '240', 'Rumani', '01', 'regular'],
+        ['Tetra', 'Viper', '毒蛇', '112', 'Noir', '02', 'regular'],
+        ['Tetra', 'Sugar', '舒格', '140', 'Noir', '03', 'regular'],
+        ['Tetra', 'Noir', '諾亞爾', '271', 'Noir', '03', 'regular'],
+        ['Tetra', 'Soda: Twinkling Bunny', '索達兔', '314', 'Noir', '03', 'regular'],
+        ['Tetra', 'Noise', '諾伊斯', '430', 'Noise', '01', 'regular'],
+        ['Tetra', 'Biscuit', '餅乾', '381', 'Noise', '02', 'regular'],
+        ['Tetra', 'Bay', '貝伊', '550', 'Noise', '02', 'regular'],
+        ['Tetra', 'Anis: Sparkling Summer', '泳阿尼斯', '015', 'Anis: Sparkling Summer', '03', 'regular'],
+        ['Tetra', 'Moran', '牡丹', '281', 'Moran', '01', 'regular'],
+        ['Tetra', 'Rosanna', '羅珊娜', '280', 'Rosanna', '01', 'regular'],
+        ['Tetra', 'Alice', '愛麗絲', '191', 'Alice', '03', 'regular'],
+        ['Tetra', 'Rouge', '露姬', '272', 'Rouge', '01', 'unRegular'],
+        ['Tetra', 'Ludmilla', '魯德米拉', '190', 'Ludmilla', '01', 'unRegular'],
+        ['Tetra', 'Exia', '艾可希雅', '210', 'Maxwell', '01', 'unRegular'],
+        ['Tetra', 'Frima', '普琳瑪', '142', 'Frima', '01', 'unRegular'],
+        ['Tetra', 'Mary', '梅里', '130', 'Naga', '01', 'unRegular'],
+        ['Tetra', 'Milk', '米爾克', '141', 'Maxwell', '01', 'unRegular'],
+        ['Tetra', 'Yulha', '尤爾夏', '171', 'Yulha', '03', 'unRegular'],
+        ['Tetra', 'Rupee', '露菲', '200', 'Blanc', '02', 'unRegular'],
+        ['Tetra', 'Yan', '楊', '201', 'N102', '02', 'unRegular'],
+        ['Tetra', 'Dolla', '朵拉', '202', 'Maxwell', '02', 'unRegular'],
+        ['Tetra', 'Novel', '諾薇兒', '212', 'Liter', '02', 'unRegular'],
+        ['Tetra', 'Folkwang', '富克旺', '242', 'Blanc', '02', 'unRegular'],
+        ['Tetra', 'Sakura', '櫻花', '282', 'Admi', '01', 'unRegular'],
+        ['Tetra', 'Cocoa', '可可', '311', 'Maxwell', '01', 'unRegular'],
+        ['Tetra', 'Soda', '索達', '312', 'Crown', '01', 'unRegular'],
+        ['Tetra', 'Rei', '萊伊', '392', 'Liter', '01', 'unRegular'],
+        ['Tetra', 'Aria', '阿莉亞', '432', 'Crown', '02', 'unRegular'],
+        ['Tetra', 'Volume', '沃綸姆', '431', 'Liter', '01', 'unRegular'],
+        ['Tetra', 'Rupee: Winter Shopper', '冬露菲', '203', 'Blanc', '01', 'unRegular'],
+        ['Tetra', 'Mary: Bay Goddess', '泳梅里', '132', 'Frima', '01', 'unRegular'],
+        ['Tetra', 'Nero', '尼羅', '380', 'Liter', '02', 'unRegular'],
+        ['Tetra', 'Ludmilla: Winter Owner', '冬魯德米拉', '194', 'Crown', '03', 'unRegular'],
+        ['Tetra', 'Mica: Snow Buddy', '聖誕米卡**', '062', 'Mica: Snow Buddy', '01', 'unRegular'],
+        ['Tetra', 'Leona', '萊昂納', '382', 'Naga', '02', 'unRegular'],
+        ['Tetra', 'Ade', '愛德', '310', 'Moran', '02', 'unRegular'],
+        ['Tetra', 'Alice: Wonderland Bunny', '愛麗絲兔', '195', 'Liter', '01', 'unRegular'],
+        ['Tetra', 'Clay', '克雷伊', '551', 'Liter', '02', 'unRegular'],
+        ['Tetra', 'Rosanna: Chic Ocean', '泳羅珊娜', '283', 'Blanc', '02', 'unRegular'],
+        ['Tetra', 'Sakura: Bloom in Summer', '泳櫻花', '284', 'Sakura: Bloom in Summer', '03', 'unRegular'],
+        ['Tetra', 'Bready', '布蕾德', '520', 'Maxwell', '03', 'unRegular'],
+        ['Pilgrim', 'Noah', '諾雅', '232', 'Noah', '02', 'regular'],
+        ['Pilgrim', 'Rapunzel', '長髮公主', '221', 'Rapunzel', '01', 'regular'],
+        ['Pilgrim', 'Scarlet', '紅蓮', '222', 'Scarlet', '03', 'regular'],
+        ['Pilgrim', 'Scarlet: Black Shadow', '暗影紅蓮', '225', 'Scarlet: Black Shadow', '03', 'regular'],
+        ['Pilgrim', 'Red Hood', '小紅帽', '470', 'Red Hood', 'all', 'regular'],
+        ['Pilgrim', 'Cinderella', '灰姑娘', '511', 'Cinderella', '03', 'regular'],
+        ['Pilgrim', 'Crown', '皇冠', '330', 'Crown', '02', 'unRegular'],
+        ['Pilgrim', 'Snow White', '白雪公主', '220', 'Moran', '03', 'unRegular'],
+        ['Pilgrim', 'Isabel', '伊莎貝爾', '231', 'Naga', '03', 'unRegular'],
+        ['Pilgrim', 'Harran', '哈蘭', '230', 'Harran', '03', 'unRegular'],
+        ['Pilgrim', 'Modernia', '神罰', '260', 'Modernia', '03', 'unRegular'],
+        ['Pilgrim', 'Nihilister', '尼希利斯塔', '261', 'Nihilister', '02', 'unRegular'],
+        ['Pilgrim', 'Dorothy', '桃樂絲', '233', 'Blanc', '01', 'unRegular'],
+        ['Pilgrim', 'Snow White: Innocent Days', '小白雪', '224', 'Snow White: Innocent Days', '03', 'unRegular'],
+        ['Pilgrim', 'Rapunzel: Pure Grace', '小長髮', '226', 'Maxwell', '01', 'unRegular'],
+        ['Pilgrim', 'Grave', '格拉維', '514', 'Grave', '02', 'unRegular'],
+        ['Abnormal', 'Emilia', '愛蜜莉雅', '821', 'Emilia', '03', 'regular'],
+        ['Abnormal', 'Makima', '真紀真', '800', 'Liter', '02', 'unRegular'],
+        ['Abnormal', 'Power', '帕瓦', '801', 'Noise', '03', 'unRegular'],
+        ['Abnormal', '2B', '2B', '810', 'Blanc', '03', 'unRegular'],
+        ['Abnormal', 'A2', 'A2', '811', 'A2', '03', 'unRegular'],
+        ['Abnormal', 'Rem', '雷姆', '820', 'Crown', '02', 'unRegular'],
+        ['Abnormal', 'Asuka', '明日香', '830', 'Asuka', '03', 'unRegular'],
+        ['Abnormal', 'Rei', '零', '831', 'Crown', '03', 'unRegular'],
+        ['Abnormal', 'Mari', '真理', '832', 'Maxwell', '02', 'unRegular'],
+        ['Abnormal', 'Asuka: WILLE', '風明日香', '835', 'Crown', '03', 'unRegular'],
+        ['Abnormal', 'Rei (Tentative Name)', '零 暫稱', '834', 'Moran', '03', 'unRegular']
     ];
 
-    function multiSort(arr) {
-        arr.sort((a, b) => {
-            // 先比較爆裂
-            if (a[5] !== b[5]) {
-                if (typeof a[5] === 'string' && typeof b[5] === 'string') {
-                    return a[5].localeCompare(b[5]); // 字串比較
-                } else {
-                    return a[5] - b[5]; // 數字比較
-                }
-            } else {
-            // 如果爆裂相同，比較編號            
-                return a[3] - b[3]; // 數字比較            
-            }
-        });
-        return arr;
-    }
-
-    // 進行排序
-    let character = multiSort(characterUnsort);
-    let isOriginalSort = true; // 追蹤排序狀態
+    // SR角色列表
+    var srList = ["012"];    
+    
+    
 
     const speedContainer = document.querySelector('.speed-container');
     const container = document.querySelector('.container');
-    const columns = document.querySelectorAll('.column');
+    const column = document.getElementById('column');
 
-    //建立 speed div
+
+    //優化圖片載入時間點
+    document.addEventListener('DOMContentLoaded', () => {
+    //pvp常用角優先載入
+        const allPvpImages = document.querySelectorAll('img[data-group="regular"]');
+        allPvpImages.forEach(pvpimg => {
+            pvpimg.src = pvpimg.dataset.src;
+            delete pvpimg.dataset.src;
+        });  
+    });
+
+    /*建立 speed div
     function createSpeedDivs() {
         speed.forEach(s => {
             const speedName = document.createElement('div');
@@ -859,17 +888,6 @@
     }
     createSpeedDivs();
 
-
-    //優化圖片載入時間點
-    document.addEventListener('DOMContentLoaded', () => {
-        //pvp常用角優先載入
-        const allPvpImages = document.querySelectorAll(
-            'img[data-group="Elysionpvp"], img[data-group="Missilispvp"], img[data-group="Tetrapvp"], img[data-group="Pilgrimpvp"], img[data-group="Abnormalpvp"]'
-        );
-        allPvpImages.forEach(pvpimg => {
-            pvpimg.src = pvpimg.dataset.src;
-            delete pvpimg.dataset.src;
-        });                
 
         //Elysion其他角色圖片載入
         const showElysion = document.getElementById('showElysion');
@@ -944,107 +962,313 @@
             columns.forEach(col => col.style.display = 'none');
             speedContainer.style.display = 'flex';
         };
-    });        
+    }); */
         
     //建立角色item
     for (let i = 0; i < character.length; i++) {
         if (character[i]) {
-            let parentDiv = document.getElementById(character[i][0]);
 
             let charactername = character[i][2];
 
-            let photosrc = "https://sg-tools-cdn.blablalink.com/character/mi/mi_c";
+            let charId = 'c';
+            charId += character[i][3];
+            let photosrc = "charimg/";
             photosrc += character[i][3];
-            photosrc += "_00_s.webp";
+            photosrc += ".webp";
+            let burst = 'burst';
+            burst += character[i][5];
+            
 
             const item = document.createElement('div');
-            item.classList.add('item', character[i][3], character[i][0]);
+            item.classList.add('item', charId, character[i][0], burst, character[i][6]);
+            
+            //SR角色控制
+            for(let j = 0; j < srList.length; j++){
+                if (srList[j] == character[i][3]) {
+                    item.classList.add('SRcharacter');
+                };
+            };
+            
             item.innerHTML = `
+            <div class="selectedCover">
+            </div>
             <div class="itemhover">
             </div>
-            <img class="burst" src="https://sg-tools-cdn.blablalink.com/icon/atlas_common_class/icn_burst_${character[i][5]}.webp">
-            <img class="charimg" data-group=${character[i][0]} data-src=${photosrc} alt="Delayed Image">
-            <p class=charactername>${charactername}</p>
-            `;
+            <div class="burst">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="24" viewBox="0 0 20 24" fill="none">
+                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z" fill="#232323"/>
+                </svg>
+                <img src="iconimg/burst_${character[i][5]}.webp">
+            </div>
+            <div class="charimg">
+            <img data-group=${character[i][6]} data-src=${photosrc} alt="Delayed Image">
+            </div>
 
-            // 檢查 parentDiv 是否存在
-            if (parentDiv) {
-            parentDiv.appendChild(item);
-            } else {
-            console.error(`找不到 id 為 ${character[i][0]} 的父元素。`);
-            };
+            <svg class=charactername viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg">
+                <text x="97%" y="80%" text-anchor="end" stroke="rgba(var(--bg-dark-gray)" stroke-width="4" fill="rgba(var(--content-orange)">
+                    ${charactername}
+                </text>
+                <text x="97%" y="80%" text-anchor="end"  fill="rgba(var(--content-orange)">
+                    ${charactername}
+                </text>                
+            </svg>
+            `;            
+            column.appendChild(item);            
         };
     };
 
-    //選取進入計算區
+    
+    //企業排序
+    const corpOrder = ['Elysion', 'Missilis', 'Tetra', 'Pilgrim', 'Abnormal'];
+    function corpSort(arr, order) {
+        arr.sort((a, b) => {
+            // 先比較企業
+            if (a[0]!== b[0]) {
+                return order.indexOf(a[0]) - order.indexOf(b[0]);
+            } else {
+                return a[3] - b[3]; // 部隊比較
+            }           
+        });
+        return arr;
+    };
+
+    //速度排序
+    function speedSort(arr, order) {
+        arr.sort((a, b) => {
+            // 先比較爆裂速度
+            let aIndex = -1;
+            let bIndex = -1;
+            if (a[4]!== b[4]) {
+                for (let i = 0; i < order.length; i++) {
+                    if (a[4] === order[i][0]) {
+                        aIndex = i;
+                    }
+                    if (b[4] === order[i][0]) {
+                        bIndex = i;
+                    }
+                };
+                return aIndex - bIndex;
+            } else {
+                return a[3] - b[3]; // 部隊比較
+            }           
+        });
+        return arr;
+    };
+
     const chars = document.querySelectorAll('.item');
-    const selectedChars = [null, null, null, null, null]; // 使用 null 作為預留位置
-    const speedchars = [null, null, null, null, null]; 
+    let characterSort ="";
+    function sort() {
+        chars.forEach(char => {
+            char.style.order = "";
+            for(let i = 0; i < characterSort.length; i++) {                
+                if (char.classList[1].slice(1) === characterSort[i][3]) {
+                    char.style.order = i;
+                };
+            };            
+        });
+    };    
+
+    // 初始排序(依企業排序)
+    const corpSortButton = document.getElementById('corpSort');
+    const speedSortButton = document.getElementById('speedSort');
+    characterSort = corpSort(character, corpOrder);
+    sort();
+    let sortType = 'corpSort'; // 追蹤排序狀態
+    corpSortButton.style.display = 'none';
+
+
+    //企業排序    
+    corpSortButton.addEventListener('click', () => {        
+        if (sortType !== 'corpSort') {
+            characterSort = corpSort(character, corpOrder);
+            sort();
+            sortType = 'corpSort';
+            corpSortButton.style.display = 'none';
+            speedSortButton.style.display = 'flex';
+        }
+    });
+
+    //充能速度排序    
+    speedSortButton.addEventListener('click', () => {
+        if (sortType !== 'speedSort') {
+            characterSort = speedSort(character, speed);
+            sort();
+            sortType = 'speedSort';
+            corpSortButton.style.display = 'flex';
+            speedSortButton.style.display = 'none';
+        }
+    });
+
+
+    //建立計算區    
+    let round = 0;//設定初始隊伍
+    let target = 0;//設定初始對象 0=自己 1=對方
+   
+    const caculateArea = document.querySelector(".caculateArea");
+    for (let i = 0; i < 2; i++) {
+        for(let j = 0; j < 5; j++) {
+            const resultArea = document.createElement('div');
+            let resultAreaID = "resultArea";
+            resultAreaID += i ;
+            resultAreaID += j ;
+            resultArea.id =  resultAreaID;
+            resultArea.classList.add('resultArea');        
+            resultArea.classList.add('initial');
+            const caculate = document.createElement('div');
+            caculate.classList.add('caculate');
+            
+            for (let k = 0; k < 5; k++) {
+                const cacuplace = document.createElement('div');
+                let cacuplaceID = "cacuplace";
+                cacuplaceID += k;
+                cacuplace.id = cacuplaceID;
+                cacuplace.classList.add('cacuplace');
+                caculate.appendChild(cacuplace);
+            };
+            const result = document.createElement('div');
+            result.classList.add('result');
+            result.innerHTML = `
+                <p class="burstResult">點選角色開始計算</p>
+            `;
+            resultArea.appendChild(caculate);
+            resultArea.appendChild(result);    
+            caculateArea.appendChild(resultArea);
+        };
+    };
+
+    //僅顯示當前目標計算區
+    function showTargetArea(target, round) {
+        const hideArea = caculateArea.getElementsByClassName("resultArea");        
+        Array.from(hideArea).forEach(result => {
+            result.style.display = "none";
+        });
+        const targetArea = caculateArea.querySelector(`#resultArea${target}${round}`);
+        targetArea.style.display = "flex";
+    };
+    showTargetArea(target, round);
+
+        
+    //計算區空位
+    const selectedChars = Array.from({ length: 2 }, () =>
+        Array.from({ length: 5 }, () => Array( 5 ).fill(null))
+    );
+    const speedchars = Array.from({ length: 2 }, () =>
+        Array.from({ length: 5 }, () => Array( 5 ).fill(null))
+    );
+    
+    //切換round
+    const targetRounds = document.getElementsByClassName("round");    
+    Array.from(targetRounds).forEach(targetRound => {
+        targetRound.addEventListener('click', () =>{
+
+            const selecteds = document.getElementsByClassName("selected");
+            
+            Array.from(selecteds).forEach(selected => {
+                selected.classList.add('blocked');
+                selected.classList.remove('selected');
+            });            
+
+                round = Number(targetRound.id.slice(-1));
+                const blockeds = document.getElementsByClassName("blocked");
+                console.log(blockeds);
+                
+                Array.from(blockeds).forEach(blocked => {
+                    for (let i = 0; i < 5; i++) {
+                        if (selectedChars[target][round][i] && blocked.classList[1] === selectedChars[target][round][i].classList[1]) {
+                            blocked.classList.add('selected');
+                            blocked.classList.remove('blocked');                            
+                        };
+                    };
+                });           
+            showTargetArea(target, round);
+        });        
+    });
+
+    
+    function clearArr(arr, target, round, index) {
+        arr[target][round][index] = null;
+        return arr;
+    };
 
     chars.forEach(char => {
         char.addEventListener('click', () => {
-            const index = selectedChars.indexOf(char);
+            let index = selectedChars[target][round].indexOf(char);
+            
+            if (char.classList[5] != 'blocked') {
+                if (index !== -1) {
+                    // 如果已選取，則取消選取
+                    char.classList.remove(`selected`);
+                    
+                    // 清除陣列
+                    clearArr(selectedChars, target, round, index);
+                    clearArr(speedchars, target, round, index);
+                    
+                    const targetArea = document.querySelector(`#resultArea${target}${round}`);
+                    const cacuplace = targetArea.querySelector(`#cacuplace${index}`);
+                    cacuplace.replaceChildren();
+                } else {
+                    // 如果未選取，則新增選取
+                    const emptyIndex = selectedChars[target][round].findIndex(item => item === null);                
 
-            if (index !== -1) {
-                // 如果已選取，則取消選取
-                char.classList.remove(`selected${index + 1}`);
-                selectedChars[index] = null;
-                speedchars[index] = null; // 清除 speedchars 陣列
-                const cacuplace = document.getElementById(`cacuplace${index + 1}`);
-                cacuplace.replaceChildren();
-            } else {
-                // 如果未選取，則新增選取
-                const emptyIndex = selectedChars.findIndex(item => item === null);
+                    if (emptyIndex !== -1) {
+                        // 檢查是否已達到選取上限
+                        if (selectedChars[target][round].filter(item => item !== null).length < 5) {
+                            selectedChars[target][round][emptyIndex] = char;
+                            char.classList.add(`selected`);
+                            const selectedCover = char.querySelector(`.selectedCover`);                        
+                            let showRound = round;
+                            showRound += 1;
+                            selectedCover.innerHTML =`<p>round</p><p class="blockRound">0${showRound}</p>`;
+                            const clonedchar = char.cloneNode(true);                        
 
-                if (emptyIndex !== -1) {
-                    // 檢查是否已達到選取上限
-                    if (selectedChars.filter(item => item !== null).length < 5) {
-                        selectedChars[emptyIndex] = char;
-                        char.classList.add(`selected${emptyIndex + 1}`);
-                        const clonedchar = char.cloneNode(true);
+                            character.forEach((subArray) => {
+                                if (subArray[3] === clonedchar.classList[1].slice(1)) {
+                                    const charspeed = subArray[4];
 
-                        character.forEach((subArray) => {
-                            if (subArray[3] === clonedchar.classList[1]) {
-                                const charspeed = subArray[4];
+                                    speed.forEach((speedsubArray) => {
+                                        if (speedsubArray[0] === charspeed) {
+                                            speedchars[target][round][emptyIndex] = speedsubArray; // 將 speed 子陣列存儲到 speedchars
+                                            
+                                        };
+                                    });
+                                };
+                            });
+                            //控制計算區的角色名稱
+                            clonedchar.classList.add('cacuplaceItem');
+                            const caculateName = clonedchar.querySelectorAll('.charactername');
+                            caculateName.forEach( element => {
+                                element.classList.add('caculateName');
+                            });
 
-                                speed.forEach((speedsubArray) => {
-                                    if (speedsubArray[0] === charspeed) {
-                                        speedchars[emptyIndex] = speedsubArray; // 將 speed 子陣列存儲到 speedchars
-                                    };
-                                });
-                            };
-                        });
+                            
+                            const targetArea = document.querySelector(`#resultArea${target}${round}`);
+                            const cacuplace = targetArea.querySelector(`#cacuplace${emptyIndex}`);
+                            cacuplace.appendChild(clonedchar);
 
-                        //控制計算區的角色名稱
-                        clonedchar.classList.add('cacuplaceItem');
-                        const caculateName = clonedchar.querySelectorAll('.charactername');
-                        caculateName.forEach( element => {
-                            element.classList.add('caculateName');
-                        });
+                            // 為 cacuplace 中的 clonedchar 添加點擊事件監聽器
+                            clonedchar.addEventListener('click', function(event) {
+                                event.stopPropagation(); // 阻止事件阻擋
 
-                        const cacuplace = document.getElementById(`cacuplace${emptyIndex + 1}`);
-                        cacuplace.appendChild(clonedchar);
-
-                        // 為 cacuplace 中的 clonedchar 添加點擊事件監聽器
-                        clonedchar.addEventListener('click', function(event) {
-                            event.stopPropagation(); // 阻止事件阻擋
-
-                            // 找到 clonedchar 在 selectedChars 中的索引
-                            const clonedIndex = selectedChars.indexOf(char);
-                            if (clonedIndex !== -1) {
-                                // 取消選取
-                                char.classList.remove(`selected${clonedIndex + 1}`);
-                                selectedChars[clonedIndex] = null;                                
-                                speedchars[clonedIndex] = null;
-                                cacuplace.replaceChildren();   
-                                
-                                //更新總速度和加成
-                                calculateAndDisplay();
-                            };
-                        });
+                                // 找到 clonedchar 在 selectedChars 中的索引
+                                const clonedIndex = selectedChars[target][round].indexOf(char);
+                                if (clonedIndex !== -1) {
+                                    // 取消選取
+                                    char.classList.remove(`selected`);
+                                    selectedChars[target][round][clonedIndex] = null;                                
+                                    speedchars[target][round][clonedIndex] = null;
+                                    cacuplace.replaceChildren();
+                                    
+                                    //更新總速度和加成
+                                    calculateAndDisplay();
+                                };
+                            });
+                        };
                     };
                 };
+
             };
+            
+            
             
             // 計算總速度和加成
             function calculateAndDisplay() {                
@@ -1057,7 +1281,7 @@
                     bonusSpeed: 0
                 };
 
-                speedchars.forEach(subArray => {
+                speedchars[target][round].forEach(subArray => {
                     if (subArray) {
                         sums.twoRL += subArray[1] || 0;
                         sums.twofiveRL += subArray[2] || 0;
@@ -1066,7 +1290,7 @@
                         sums.fourRL += subArray[5] || 0;
                         sums.bonusSpeed += subArray[6] || 0;
                     };
-                });
+                });                
 
                 // 處理浮點數精度問題並找到最大值
                 let maxKey = "over4RL"; // 預設值
@@ -1086,30 +1310,35 @@
                 // 設定結果名稱
                 let resultname = maxKey;                
                 let previousSentence = "";
+                let previousClass = "";
                 if (maxKey === "twoRL"){
                     resultname = "2RL";
                     previousSentence ="";
                 };
                 if (maxKey === "twofiveRL"){
                     resultname = "2.5RL";
+                    previousClass = "twoRL";
                     previousSentence = "2RL(";
                     previousSentence += sums.twoRL;
                     previousSentence += ")";
                 };
                 if (maxKey === "threeRL"){
-                    resultname = "3RL";
+                    resultname = "3RL";                    
+                    previousClass = "twofiveRL";
                     previousSentence = "2.5RL(";
                     previousSentence += sums.twofiveRL;
                     previousSentence += ")";
                 };
                 if (maxKey === "threefiveRL"){
                     resultname = "3.5RL";
+                    previousClass = "threeRL";
                     previousSentence = "3RL(";
                     previousSentence += sums.threeRL;
                     previousSentence += ")";
                 };
                 if (maxKey === "fourRL"){
                     resultname = "4RL";
+                    previousClass = "threefiveRL";
                     previousSentence = "3.5RL(";
                     previousSentence += sums.threefiveRL;
                     previousSentence += ")";
@@ -1119,8 +1348,9 @@
                 };
 
                 // 顯示結果
-                result.className = "result";
-                result.classList.add(maxKey);
+                const targetArea = document.querySelector(`#resultArea${target}${round}`);
+                targetArea.className = `resultArea`;
+                targetArea.classList.add(maxKey);
                 let finalspeed = 0;
 
                 if(maxValue === 0){
@@ -1128,39 +1358,19 @@
                 } else {
                     finalspeed = maxValue;
                 };
-
+                const result = targetArea.querySelector(`.result`);
                 result.innerHTML = `
-                <div class="burstResult">
-                    <p>${resultname}<br>(${finalspeed})</p>
-                </div>
-                <div class="previousResult">
-                <p>${previousSentence}</p>
-                </div>`;
-
-                console.log("計算結果:", previousSentence);
+                    <p class="burstResult">${resultname} (${finalspeed})</p>
+                    <p class="previousResult ${previousClass}"> ${previousSentence}</p>
+                `;                
             }
             calculateAndDisplay();
+            
         });
     });
     
-    const toggleSortButton = document.getElementById('toggleSort');
-
-    toggleSortButton.addEventListener('click', () => {
-        isOriginalSort = !isOriginalSort;
-
-        if (isOriginalSort) {
-            columns.forEach(col => col.style.display = 'flex');
-            speedContainer.style.display = 'none';
-            container.style.display = 'flex'; // 顯示 container
-            updateCorpDivs();
-        } else {
-            columns.forEach(col => col.style.display = 'none');
-            speedContainer.style.display = 'flex';
-            container.style.display = 'none'; // 隱藏 container
-            updateSpeedDivs();
-        }
-    });
-
+    
+    /*
     function updateSpeedDivs() {
         
         const allImages = document.querySelectorAll('img');
@@ -1201,7 +1411,7 @@
     const preserveContainer = document.getElementById('preserve-container');
     const togglePreserveBtn = document.getElementById('togglePreserve');
 
-    //開關保留區
+    開關保留區
     const togglePreserve = document.getElementById('togglePreserve');
     let isPreserveHide = true;
 
@@ -1315,7 +1525,7 @@
             });
         };
     });
-
+       */ 
     
   </script>
   
