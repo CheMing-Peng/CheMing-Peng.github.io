@@ -14,6 +14,7 @@
             --content-light-orange: 255, 280, 60;
             --content-blue: 40, 140, 255;
             --content-dark-blue: 10, 35, 70;
+            --enemy-color: 40, 140, 255;             
             --content-purple:255, 0, 255;
             --content-mainColor: 255, 255, 255;
             --content-reverseColor: 0, 0, 0;
@@ -24,6 +25,7 @@
             --font-weight-middle:500;
             --font-weight-heavy: 900;
             --border-line-heavy: 3px;
+            --ememy-img: brightness(60%) sepia(100%) hue-rotate(200deg) saturate(2000%);
         }
 
         body{            
@@ -45,7 +47,7 @@
             display: flex;
             flex-direction: column;
             width: 1024px;
-            height: calc(100vh - 200px);
+            height: calc(100vh - 140px);
             padding-top: 48px;
             padding-bottom: 200px;
             overflow: auto;
@@ -60,10 +62,10 @@
             justify-content: center;
             width: 1024px;
             height: 12px;
-            background-color: rgb(var(--content-blue));
+            background-color: rgb(var(--enemy-color));
             opacity: 0.9;
             z-index: 5;
-            fill: rgb(var(--content-blue));
+            fill: rgb(var(--enemy-color));
         }
         #filter-container {
             position: fixed;
@@ -80,14 +82,15 @@
             display: flex;
             align-items: center;
             width: 72px;
-            height: 28px;
+            height: 24px;
             box-sizing: border-box;
             font-size: 16px;
             font-weight: 900;
             color: rgb(var(--bg-white));
             padding-left: var(--margin-min);
-            border: 1px solid rgb(var(--bg-white), 0.5);
-            border-radius: 5px;
+            border: 1px solid rgb(var(--bg-white));
+            border-radius: var(--border-radius);
+            cursor: pointer;
         }
         .sort p {
             margin: 0;
@@ -101,15 +104,20 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            gap: var(--margin);
         }        
         .filterBtn{            
             position: relative;
             display: flex;
+            box-sizing: border-box;
             align-items: center;
             justify-content: center;
-            width: 36px;
-            height: 32px;
+            width: 28px;
+            height: 24px;
             color: rgb(var(--bg-white));
+            border: 1px solid rgb(var(--bg-white));
+            border-radius: var(--border-radius);
+            cursor: pointer;
         }
         .filterBtn img{
             position: absolute;
@@ -118,52 +126,55 @@
             transform: translate(-50%, -50%);
             width: 24px;
             height: auto;
+        } 
+        .filterBtnOn{
+            color: rgb(var(--bg-white), 0);
+            background-color: rgb(var(--bg-white));
+            border: none;
         }
-        .filterBtn svg{
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 32px;
-            height: auto;            
-            fill: none;
-            stroke: rgb(var(--bg-white), 0.8);
-            stroke-width: 1px;
-        }
-        #unRegularBtn{
+        .filterBtnOn img{
+            filter: var(--ememy-img);
+        } 
+        
+        #SHstatus{
             display: flex;
             align-items: center;
             justify-content: center;
-            width: 80px;
+            width: 72px;
             height: 36px;
-            color: rgb(var(--bg-white));
-            
+            color: rgb(var(--bg-white));            
             margin: 0;
             padding: 0;
             gap: var(--margin-min);
             overflow: hidden;
         }
-        #unRegularBtn p{
+        #SHstatus p{
             margin: 0;
             text-align: right;
             line-height: 1.2em;
+            font-size: 10px;
         }
-        .SHstatus {
-            display: flex;
+        .unRegularBtn {
+            display: flex;            
+            box-sizing: border-box;
             align-items: center;
             justify-content: center;
-            height: 16px;
-            width: 28px;
+            height: 24px;
+            min-width: 36px;
             padding: var(--margin-min);
             border: 1px solid rgb(var(--bg-white));
             border-radius: var(--border-radius);
-            
+            cursor: pointer;
         }
-        .SHstatus p {
+        .unRegularBtn p {
             font-family: 'Tahoma';
             font-weight: 900;
             transform: scaleX(0.8);
 
+        }
+        .unRegularBtnOn {
+            color: rgb(var(--content-blue));
+            background-color: rgb(var(--bg-white));
         }
 
 
@@ -325,6 +336,10 @@
             box-shadow: -2px -2px 12px 0 rgb(var(--bg-black), 0.5);
             
         }
+        #bottomFix p {
+            margin: 0;
+            padding: 0;
+        }
         .caculateArea{
             display: flex;
             flex-direction: column;
@@ -339,9 +354,41 @@
             gap: var(--margin);
             border-radius: 8px 8px 0 0;      
         }
+        .switchTargetBG {
+            position: absolute;
+            top: -4px;
+            left: 0;
+            display: flex; 
+            width: 100%;
+            height: 48px;
+            background-color: rgb(var(--enemy-color));
+            border-radius: 8px;
+            z-index: -1;
+        }
+        .switchTarget{
+            position: absolute;
+            top: -4px;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+            height: 16px;
+            z-index: 1;
+            color: rgb(var(--bg-white));
+            cursor: pointer;
+        }
+        .switchTarget svg {
+            position: absolute;
+            top: 0;
+            left: 50%;            
+            transform: translate(-50%, 0%);
+            z-index: -1;
+            fill: rgb(var(--enemy-color));
+        }
+
         .round-container{
             display: flex;
             gap: var(--margin);
+            padding-top: 16px;
         }
         .round{
             display: flex;
@@ -356,17 +403,17 @@
             font-weight: 900;
             font-family: 'Tahoma';
             box-shadow: 1px 1px 1px 0 rgb(var(--bg-black), 0.3);
+            cursor: pointer;
         }
-        .round p{
-            margin: 0;            
+        .round p{           
             transform: scaleX(0.8);
+        }
+        .targetRound {
+            background-color: rgb(var(--enemy-color));
+            color: rgb(var(--bg-white));
         }
         .roundNumber{
             font-size: 12px;            
-        }
-        .selectedRound{
-            background-color: rgb(var(--content-blue));
-            color: rgb(var(--bg-white));
         }
 
         .caculate{
@@ -408,7 +455,7 @@
         }
         .result{
             display: flex;
-            align-items: end;
+            align-items: center;
             justify-content: center;
             height: 24px;
             gap: var(--margin-big);
@@ -455,61 +502,31 @@
             border: 2px solid #51ff94;
             color: #51ff94;
         }
-
-
-        /*
-        #togglePreserve{
-            position: relative;
+        .enemy {
+            position: absolute;                        
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            top: -56px;
+            padding: 8px;
+            margin: 0;
+            border: none;
+            background-color: rgb(var(--bg-black),0.8);
+            z-index: -2;
+        }
+        .enemy .cacuplace{            
+            width: 40px;
+            height: 40px;
+        }
+        .enemy .burstResult{
+            width: 72px;
+        }
+        .enemy .previousResult{
             display: none;
-            z-index: 5;
-            right: 12px;
-            bottom: 12px;
         }
-        #preserve-container{
-            left: 0;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
-            height: 0;
-            width: 100%;
-        }
-        .preserve{
-            display: flex;
-            align-items: center;
-            left: 0;
-            height: fit-content;
-            width: 100%;
-            padding: 0;
-            padding-left: var(--margin-big);
-            background-color: rgba(150, 150, 150, 0.9);
-        }
-        .preserve .burstResult{
-            display: flex;
-            align-items: center;
-            height: 32px;
-            padding-left: var(--margin-min);            
-            padding-right: var(--margin-min);
-            background-color: rgba(var(--bg-white), 0.7);
-            color: #303030;
-            border-radius: var(--border-radius);
-            margin-left: var(--margin);
-            line-height: 1.2;
-            font-size: 10px;
-        }
-        #delBtn{
-            display: flex;
-            align-items: center;
-            margin-left: var(--margin);
-            border-radius: var(--border-radius);
-        }
-        .preserveimg{
-            width: 50px; 
-            height: 64px;             
-            object-position: top;
-            object-fit: cover; 
-            border-radius: var(--border-radius);
-        }
-            保留區*/
+
+
 
         @media (max-width: 1024px) {
             .container {
@@ -527,15 +544,15 @@
                 object-fit: cover; 
             }
             .filterBG{
-                height: 80px;
+                height: 72px;
             }
             #filter-container{
                 width: 375px; 
             }
             #burstFilter{
                 position: absolute;
-                top: 36px;
-                left: 148px;
+                top: 40px;
+                left: 138px;
             }
         }
 
@@ -556,7 +573,7 @@
                 <path d="M3 12C3 11 3 11 4 11H16C16 11 17 11 17 12C17 12 16 13 16 13H4C3 13 3 12 3 12Z"/>
                 <path d="M3 18C3 17 3 17 4 17H12C12 17 13 17 13 18C13 18 12 19 12 19H4C3 19 3 18 3 18Z"/>
             </svg> 
-            <p>企業</p>
+            <p>充能</p>
         </div>
         <div id="speedSort"class="sort">            
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
@@ -564,64 +581,40 @@
                 <path d="M3 12C3 11 3 11 4 11H16C16 11 17 11 17 12C17 12 16 13 16 13H4C3 13 3 12 3 12Z"/>
                 <path d="M3 18C3 17 3 17 4 17H12C12 17 13 17 13 18C13 18 12 19 12 19H4C3 19 3 18 3 18Z"/>
             </svg>
-            <p>充能</p>
+            <p>企業</p>
         </div>
         <div id="burstFilter" class="Filter">            
             <div id="burst01" class="filterBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
-                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
-                </svg>
                 <img src="iconimg/burst_01.webp">
             </div>
             <div id="burst02" class="filterBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
-                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
-                </svg>
                 <img src="iconimg/burst_02.webp">
             </div>
             <div id="burst03" class="filterBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
-                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
-                </svg>
                 <img src="iconimg/burst_03.webp">
             </div>
         </div>
         <div id="corpFilter" class="Filter">            
             <div id="corp01" class="filterBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
-                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
-                </svg>
                 <img src="iconimg/corp_01.webp">
             </div>
             <div id="corp02" class="filterBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
-                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
-                </svg>
                 <img src="iconimg/corp_02.webp">
             </div>
             <div id="corp03" class="filterBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
-                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
-                </svg>
                 <img src="iconimg/corp_03.webp">
             </div>
             <div id="corp04" class="filterBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
-                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
-                </svg>
                 <img src="iconimg/corp_04.webp">
             </div>
             <div id="corp05" class="filterBtn">
-                <svg xmlns="http://www.w3.org/2000/svg" viewbox="-2 -2 24 28">
-                    <path d="M0 6L10 0L20 6V18L10 24L0 18V6Z"/>
-                </svg>
                 <img src="iconimg/corp_05.webp">
             </div>
         </div>
-        <div id="unRegularBtn">
+        <div id="SHstatus">
             <p>非常用角色</p>
-            <div class="SHstatus">
-                <p>Show</p>
+            <div class="unRegularBtn">
+                <p>Hide</p>
             </div>
         </div>
     </div>
@@ -632,8 +625,16 @@
   
     <div id="bottomFix">
         <div class="caculateArea">
+            <div class="switchTargetBG">                
+            </div>
+            <div class="switchTarget">
+                <svg width="120" height="18" xmlns="http://www.w3.org/2000/svg">
+                    <polygon points="0,0 120,0 110,18 10,18"/>
+                  </svg>
+                <p>設定敵方對伍</p>
+            </div>
             <div class="round-container">
-                <div id="round0" class="round">
+                <div id="round0" class="round targetRound">
                     <p>ROUND</p>
                     <p class="roundNumber">01</p>
                 </div>
@@ -713,7 +714,7 @@
         ["Snow White: Innocent Days", 1.3, 1.5, 1.9, 2.25, 2.6, 0]
     ];
 
-    //角色資訊：企業(後綴pvp為常用角), 英文, 中文, 編號, 速度級
+    //角色資訊：企業, 英文, 中文, 編號, 速度級, burst, 常用標籤
     var character = [        
         ['Elysion', 'Neon: Blue Ocean', '泳尼恩', '014', 'Crown', '03', 'unRegular'],
         ['Elysion', 'Rapi: Red Hood', '紅帽拉毗', '016', 'Crown', '03', 'unRegular'],
@@ -844,9 +845,7 @@
     ];
 
     // SR角色列表
-    var srList = ["012"];    
-    
-    
+    var srList = ["012"]; 
 
     const speedContainer = document.querySelector('.speed-container');
     const container = document.querySelector('.container');
@@ -855,7 +854,7 @@
 
     //優化圖片載入時間點
     document.addEventListener('DOMContentLoaded', () => {
-    //pvp常用角優先載入
+        //pvp常用角優先載入
         const allPvpImages = document.querySelectorAll('img[data-group="regular"]');
         allPvpImages.forEach(pvpimg => {
             pvpimg.src = pvpimg.dataset.src;
@@ -863,106 +862,6 @@
         });  
     });
 
-    /*建立 speed div
-    function createSpeedDivs() {
-        speed.forEach(s => {
-            const speedName = document.createElement('div');
-            speedName.classList.add('speedName');
-            
-            if (s[6] === 0) {
-                speedName.innerHTML = `
-                <p>2RL=${s[1]}, 2.5RL=${s[2]}, 3RL=${s[3]}, 3.5RL=${s[4]}, 4RL=${s[5]}</p>
-                `;
-            } else {
-                speedName.innerHTML = `
-                <p>2RL=${s[1]}+, 2.5RL=${s[2]}+, 3RL=${s[3]}+, 3.5RL=${s[4]}+, 4RL=${s[5]}+</p>
-                `;
-            }            
-            const speedDiv = document.createElement('div');
-            speedDiv.id = s[0];
-            speedDiv.classList.add('speed');
-            speedContainer.appendChild(speedName);
-            speedContainer.appendChild(speedDiv);
-            
-        });
-    }
-    createSpeedDivs();
-
-
-        //Elysion其他角色圖片載入
-        const showElysion = document.getElementById('showElysion');
-        const ElysionImages = document.querySelectorAll('img[data-group="Elysion"]');
-        showElysion.addEventListener('click', () => {
-            ElysionImages.forEach(ElysionImage => {
-            if (ElysionImage.dataset.src) {
-                ElysionImage.src = ElysionImage.dataset.src;
-                // (可選) 移除 data-src 屬性，避免重複載入
-                delete ElysionImage.dataset.src;
-            }
-            });
-        });
-
-        //Missilis其他角色圖片載入
-        const showMissilis = document.getElementById('showMissilis');
-        const MissilisImages = document.querySelectorAll('img[data-group="Missilis"]');
-        showMissilis.addEventListener('click', () => {
-            MissilisImages.forEach(MissilisImage => {
-            if (MissilisImage.dataset.src) {
-                MissilisImage.src = MissilisImage.dataset.src;
-                // (可選) 移除 data-src 屬性，避免重複載入
-                delete MissilisImage.dataset.src;
-            }
-            });
-        });
-
-        //Tetra其他角色圖片載入
-        const showTetra = document.getElementById('showTetra');
-        const TetraImages = document.querySelectorAll('img[data-group="Tetra"]');
-        showTetra.addEventListener('click', () => {
-            TetraImages.forEach(TetraImage => {
-            if (TetraImage.dataset.src) {
-                TetraImage.src = TetraImage.dataset.src;
-                // (可選) 移除 data-src 屬性，避免重複載入
-                delete TetraImage.dataset.src;
-            }
-            });
-        });
-
-        //Pilgrim其他角色圖片載入
-        const showPilgrim = document.getElementById('showPilgrim');
-        const PilgrimImages = document.querySelectorAll('img[data-group="Pilgrim"]');
-        showPilgrim.addEventListener('click', () => {
-            PilgrimImages.forEach(PilgrimImage => {
-            if (PilgrimImage.dataset.src) {
-                PilgrimImage.src = PilgrimImage.dataset.src;
-                // (可選) 移除 data-src 屬性，避免重複載入
-                delete PilgrimImage.dataset.src;
-            }
-            });
-        });
-
-        //Abnormal其他角色圖片載入
-        const showAbnormal = document.getElementById('showAbnormal');
-        const AbnormalImages = document.querySelectorAll('img[data-group="Abnormal"]');
-        showAbnormal.addEventListener('click', () => {
-            AbnormalImages.forEach(AbnormalImage => {
-            if (AbnormalImage.dataset.src) {
-                AbnormalImage.src = AbnormalImage.dataset.src;
-                // (可選) 移除 data-src 屬性，避免重複載入
-                delete AbnormalImage.dataset.src;
-            }
-            });
-        });
-
-        // 確保初始狀態正確
-        if (isOriginalSort) {
-            columns.forEach(col => col.style.display = 'flex');
-            speedContainer.style.display = 'none';
-        } else {
-            columns.forEach(col => col.style.display = 'none');
-            speedContainer.style.display = 'flex';
-        };
-    }); */
         
     //建立角色item
     for (let i = 0; i < character.length; i++) {
@@ -1018,7 +917,7 @@
     };
 
     
-    //企業排序
+    //將陣列依企業排序
     const corpOrder = ['Elysion', 'Missilis', 'Tetra', 'Pilgrim', 'Abnormal'];
     function corpSort(arr, order) {
         arr.sort((a, b) => {
@@ -1032,7 +931,7 @@
         return arr;
     };
 
-    //速度排序
+    //將陣列依速度排序
     function speedSort(arr, order) {
         arr.sort((a, b) => {
             // 先比較爆裂速度
@@ -1055,6 +954,7 @@
         return arr;
     };
 
+    //將item依陣列排序
     const chars = document.querySelectorAll('.item');
     let characterSort ="";
     function sort() {
@@ -1099,6 +999,147 @@
         }
     });
 
+    
+
+    //非常用角篩選
+    let unRegularStatus = 0;
+
+    const unRegularBtn = document.querySelector('.unRegularBtn');
+    const unRegularImages = document.querySelectorAll('img[data-group="unRegular"]');
+    unRegularBtn.addEventListener('click', () => {
+        unRegularStatus = 1 - unRegularStatus;
+        if (unRegularStatus == 1) {
+            unRegularBtn.classList.add('unRegularBtnOn');
+            unRegularBtn.innerHTML =`<p>Show</p>`;
+            unRegularImages.forEach(unRegularImage => {
+                if (unRegularImage.dataset.src) {
+                    unRegularImage.src = unRegularImage.dataset.src;
+                    // (可選) 移除 data-src 屬性，避免重複載入
+                    delete unRegularImage.dataset.src;
+                };
+            });
+            checkFilter();
+        } else {
+            unRegularBtn.classList.remove('unRegularBtnOn');
+            unRegularBtn.innerHTML =`<p>Hide</p>`;
+            checkFilter();
+        };
+        
+
+    })
+    
+    //企業與爆裂篩選狀態儲存
+    var burstStatus = [ 0, 0, 0];    
+    var corpStatus = [ 0, 0, 0, 0, 0];
+    
+    //check角色篩選顯示狀態
+    function checkFilter() {
+        chars.forEach(char => {            
+            char.style.display = "none";
+            for (let i = 0; i < burstStatus.length; i++) {                
+                for (let j = 0; j < corpStatus.length; j++) {
+                    //都被選上時顯示
+                    if (burstStatus[i] === 1 && corpStatus[j] === 1) {
+                        if (unRegularStatus=== 0) {
+                            if(char.classList[3].slice(-1) == i+1 && char.classList[2] == corpOrder[j] && char.classList[4]==="regular"){
+                                char.style.display = "flex";
+                            }
+                            if (char.classList[3] == "burstall" && char.classList[2] == corpOrder[j] && char.classList[4]==="regular"){ //burstall要顯示
+                                char.style.display = "flex";
+                            }
+                        } else {
+                            if(char.classList[3].slice(-1) == i+1 && char.classList[2] == corpOrder[j]) {
+                                char.style.display = "flex";
+                            }
+                            if (char.classList[3] == "burstall" && char.classList[2] == corpOrder[j]){ //burstall要顯示
+                                char.style.display = "flex";
+                            }
+                        }
+                    //burst選上，企業全部未選                    
+                    } else if (burstStatus[i] === 1 && corpStatus.indexOf(1) === -1) {
+                        if (unRegularStatus=== 0) {
+                            if(char.classList[3].slice(-1) == i+1  && char.classList[4]==="regular"){
+                                char.style.display = "flex";
+                            }
+                            if (char.classList[3] == "burstall" && char.classList[4]==="regular"){ //burstall要顯示
+                                char.style.display = "flex";
+                            }
+                        } else {
+                            if(char.classList[3].slice(-1) == i+1) {
+                                char.style.display = "flex";
+                            }
+                            if (char.classList[3] == "burstall"){ //burstall要顯示
+                                char.style.display = "flex";
+                            }
+                        }
+                    //burst全部未選，企業選上  
+                    } else if (burstStatus.indexOf(1) === -1 && corpStatus[j] === 1){
+                        if (unRegularStatus=== 0) {
+                            if(char.classList[2] == corpOrder[j] && char.classList[4]==="regular"){
+                                char.style.display = "flex";
+                            }
+                        } else {
+                            if(char.classList[2] == corpOrder[j]) {
+                                char.style.display = "flex";
+                            }
+                        } 
+                    //全部未選
+                    } else if (burstStatus.indexOf(1) === -1 && corpStatus.indexOf(1) === -1) {
+                        if (unRegularStatus=== 0) {
+                            if(char.classList[4]==="regular"){
+                                char.style.display = "flex";
+                            }
+                        } else {
+                            char.style.display = "flex";
+                        } 
+                    }
+                };
+            };
+        });
+    };
+    
+    
+    //爆裂篩選開關
+    const Burst01Button = document.getElementById('burst01');
+    const Burst02Button = document.getElementById('burst02');
+    const Burst03Button = document.getElementById('burst03');    
+
+    const burstButtons = [Burst01Button, Burst02Button, Burst03Button];
+    burstButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            burstStatus[index] = 1 - burstStatus[index]; // 切換 0 和 1
+
+            if (burstStatus[index] === 1) {
+                button.classList.add("filterBtnOn");
+            } else {
+                button.classList.remove("filterBtnOn");
+            }            
+            checkFilter();
+        });
+    });
+
+    //企業篩選開關
+    const corp01Button = document.getElementById('corp01');
+    const corp02Button = document.getElementById('corp02');
+    const corp03Button = document.getElementById('corp03');
+    const corp04Button = document.getElementById('corp04');
+    const corp05Button = document.getElementById('corp05');
+
+    const corpButtons = [corp01Button, corp02Button, corp03Button, corp04Button, corp05Button];
+    corpButtons.forEach((button, index) => {
+        button.addEventListener('click', () => {
+            corpStatus[index] = 1 - corpStatus[index]; // 切換 0 和 1
+
+            if (corpStatus[index] === 1) {
+                button.classList.add("filterBtnOn");
+            } else {
+                button.classList.remove("filterBtnOn");
+            }
+
+            checkFilter();
+        });
+    });
+
 
     //建立計算區    
     let round = 0;//設定初始隊伍
@@ -1127,23 +1168,57 @@
             };
             const result = document.createElement('div');
             result.classList.add('result');
-            result.innerHTML = `
-                <p class="burstResult">點選角色開始計算</p>
-            `;
+            if (i == 0){
+                result.innerHTML = `
+                    <p class="burstResult">點選角色開始計算</p>
+                `;
+            } else {
+                result.innerHTML = `
+                    <p class="burstResult">尚未選擇角色</p>
+                `;
+            }
+            
             resultArea.appendChild(caculate);
             resultArea.appendChild(result);    
             caculateArea.appendChild(resultArea);
         };
     };
 
-    //僅顯示當前目標計算區
+    //僅顯示當前目標計算區與對手計算區
+    const switchTarget = document.querySelector(`.switchTarget`);
+    let enemySet = 0;
     function showTargetArea(target, round) {
-        const hideArea = caculateArea.getElementsByClassName("resultArea");        
+        const hideArea = caculateArea.getElementsByClassName("resultArea"); 
+        const lastRound = caculateArea.querySelector(`.targetRound`);
+        const lastEnemy = caculateArea.querySelector(`.enemy`); 
         Array.from(hideArea).forEach(result => {
             result.style.display = "none";
+            lastRound.classList.remove('targetRound');
+            if(lastEnemy) {
+                lastEnemy.classList.remove('enemy');
+            }
         });
         const targetArea = caculateArea.querySelector(`#resultArea${target}${round}`);
+        const enemyArea = caculateArea.querySelector(`#resultArea${1-target}${round}`);
+        const taegetRound = caculateArea.querySelector(`#round${round}`); 
+        
         targetArea.style.display = "flex";
+        if (enemySet == 1) {
+            enemyArea.style.display = "flex";
+        }
+        taegetRound.classList.add('targetRound');
+        enemyArea.classList.add('enemy');
+        const rootElement = document.documentElement;        
+        const switchP = switchTarget.querySelector(`p`);
+        if (target == 1){            
+            rootElement.style.setProperty('--enemy-color', '255, 40, 40');
+            rootElement.style.setProperty('--ememy-img', 'brightness(60%) sepia(100%) hue-rotate(330deg) saturate(2000%)');
+            switchP.textContent ='設定敵方隊伍';
+        } else {
+            rootElement.style.setProperty('--enemy-color', '40, 140, 255');
+            rootElement.style.setProperty('--ememy-img', '--ememy-img', 'brightness(60%) sepia(100%) hue-rotate(200deg) saturate(2000%)');
+            switchP.textContent ='設定己方隊伍';
+        }
     };
     showTargetArea(target, round);
 
@@ -1170,7 +1245,6 @@
 
                 round = Number(targetRound.id.slice(-1));
                 const blockeds = document.getElementsByClassName("blocked");
-                console.log(blockeds);
                 
                 Array.from(blockeds).forEach(blocked => {
                     for (let i = 0; i < 5; i++) {
@@ -1184,12 +1258,37 @@
         });        
     });
 
+    console.log(selectedChars[target].every(element => element === null));
     
+    //切換target
+    
+    
+    switchTarget.addEventListener('click', () =>{
+        let emptyCheck = 1;
+        for (let i = 0; i < 5; i++) {
+            if(selectedChars[target][i].every(element => element ===null)){
+                emptyCheck = emptyCheck * 1;
+            }else{
+                emptyCheck = emptyCheck * 0;
+            }
+        }
+        console.log(emptyCheck);
+        if (emptyCheck == 1) {
+            enemySet = 0;
+        } else {
+            enemySet = 1;
+        }
+        target = 1-target;
+        showTargetArea(target, round);        
+    });
+
+    //取消選取時清除隊應儲存陣列
     function clearArr(arr, target, round, index) {
         arr[target][round][index] = null;
         return arr;
     };
 
+    //選取角色
     chars.forEach(char => {
         char.addEventListener('click', () => {
             let index = selectedChars[target][round].indexOf(char);
@@ -1265,11 +1364,8 @@
                         };
                     };
                 };
-
             };
-            
-            
-            
+
             // 計算總速度和加成
             function calculateAndDisplay() {                
                 const sums = {
@@ -1370,162 +1466,6 @@
     });
     
     
-    /*
-    function updateSpeedDivs() {
-        
-        const allImages = document.querySelectorAll('img');
-        allImages.forEach(img => {
-            if (img.dataset.src) {
-                img.src = img.dataset.src;
-                delete img.dataset.src;
-            };
-        });        
-
-        chars.forEach(char => {
-            const charCode = char.classList[1];
-            character.forEach(c => {
-                if (c[3] === charCode) {
-                    const speedDivId = c[4];
-                    const speedDiv = document.getElementById(speedDivId);
-                    if (speedDiv) {
-                        speedDiv.appendChild(char);                        
-                    };
-                };
-            });
-        });
-    };
-
-    function updateCorpDivs() {
-        chars.forEach(char => {
-            const corpCode = char.classList[2];
-            let parentDiv = document.getElementById(corpCode);
-            parentDiv.appendChild(char);
-            
-        });
-    };
-
-
-    //保存數據供比對
-    const preserveBtn = document.getElementById('preserveBtn');
-    const caculates = document.getElementsByClassName('caculate');
-    const preserveContainer = document.getElementById('preserve-container');
-    const togglePreserveBtn = document.getElementById('togglePreserve');
-
-    開關保留區
-    const togglePreserve = document.getElementById('togglePreserve');
-    let isPreserveHide = true;
-
-    togglePreserve.addEventListener('click', () => {
-        isPreserveHide = !isPreserveHide;
-        if (isPreserveHide) {
-            preserveContainer.style.display = 'none';
-            togglePreserveBtn.textContent = 'Show';
-        } else {
-            preserveContainer.style.display = 'flex';
-            togglePreserveBtn.textContent = 'Hide';
-        }
-    });
-
-       
-    preserveBtn.addEventListener('click', () => {
-        //保留時強制顯示保留區與開關按鈕
-        isPreserveHide = false;
-        preserveContainer.style.display = 'flex';
-        togglePreserveBtn.style.display = 'flex';
-        togglePreserveBtn.textContent = 'Hide';
-
-        // 將 HTMLCollection 轉換為陣列，以便遍歷
-        const caculatesArray = Array.from(caculates);
-
-        //計算目前已有多少preserve
-        let NumberOfPreserve = preserveContainer.children.length;
-
-        //最多保留4組，如果已保存4組，需先清除第4組。
-        if (NumberOfPreserve == 4) {
-            const DeleteDiv = preserveContainer.children[3];
-            preserveContainer.removeChild(DeleteDiv);
-            console.log('已清除第四個');
-            NumberOfPreserve = NumberOfPreserve - 1;
-        }
-        
-        //建立新preserve
-        const preserve = document.createElement('div');
-        let preserveId = 'preserve';
-        preserveId += NumberOfPreserve;
-        preserve.classList.add('preserve');
-        preserve.id = preserveId;
-        preserveContainer.appendChild(preserve);
-
-        //找到剛建立的preserve
-        const targetDiv = preserveContainer.children[NumberOfPreserve];        
-
-        caculatesArray.forEach(caculate => {
-            // 複製 class="charming" 的元素
-            const items = caculate.querySelectorAll('.charimg');
-            items.forEach(item => {
-            const clonedItem = item.cloneNode(true);
-            clonedItem.classList.add('preserveimg');
-            targetDiv.appendChild(clonedItem);
-            });
-
-            //判斷是否有選入角色
-            if (items.length > 0) {
-                const resultElement = caculate.querySelector('.burstResult'); // 從 caculate 中選取 #result
-                // 複製 id="result" 的元素
-                if (resultElement) {
-                    const clonedResult = resultElement.cloneNode(true);
-                    targetDiv.appendChild(clonedResult);
-                };
-
-                //塞入清除按鈕
-                const delBtn = document.createElement('div');
-                delBtn.id = 'delBtn';
-                delBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
-                    <path d="M17.7046 19.6062C18.2297 20.1313 19.0811 20.1313 19.6062 19.6062C20.1313 19.0811 20.1313 18.2297 19.6062 
-                    17.7046L13.9015 12L19.6062 6.29537C20.1313 5.77027 20.1313 4.91892 19.6062 4.39382C19.0811 3.86873 18.2297 3.86873 
-                    17.7046 4.39382L12 10.0985L6.29537 4.39382C5.77027 3.86873 4.91892 3.86873 4.39382 4.39382C3.86873 4.91892 3.86873 
-                    5.77027 4.39382 6.29537L10.0985 12L4.39382 17.7046C3.86873 18.2297 3.86873 19.0811 4.39382 19.6062C4.91892 20.1313 
-                    5.77027 20.1313 6.29537 19.6062L12 13.9015L17.7046 19.6062Z" fill="#ffffff"/>
-                    </svg>`;
-                targetDiv.appendChild(delBtn);
-                
-                //點選清除按鈕刪除preserve
-                delBtn.addEventListener('click', () => {
-                    delBtn.parentNode.remove();
-                    //如果刪除時已沒有任何保留列，隱藏開關按鈕。
-                    if (preserveContainer.children.length == 0){
-                        togglePreserveBtn.style.display = 'none';
-                    }
-                });
-            };            
-        });
-    });   
-
-    
-
-    
-
-    //隱藏非常用角色
-    columns.forEach(column => {
-        const showButton = column.querySelector('.show');
-        const hideButton = column.querySelector('.hide');
-        const columninDiv = column.querySelector('.columnin:last-child'); // 假設 columnin 是最後一個子元素
-
-        if (showButton && hideButton && columninDiv) {
-            columninDiv.style.display = 'none'; // 初始狀態隱藏
-
-            showButton.addEventListener('click', function() {
-                columninDiv.style.display = 'flex';
-                showButton.style.display = 'none';
-            });
-
-            hideButton.addEventListener('click', function() {
-                columninDiv.style.display = 'none';
-                showButton.style.display = 'flex';
-            });
-        };
-    });
-       */ 
     
   </script>
   
