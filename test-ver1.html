@@ -1237,23 +1237,41 @@
         targetRound.addEventListener('click', () =>{
 
             const selecteds = document.getElementsByClassName("selected");
-            
             Array.from(selecteds).forEach(selected => {
                 selected.classList.add('blocked');
                 selected.classList.remove('selected');
-            });            
+            });
+            
+            const enemySelecteds = document.getElementsByClassName("enemySelected");
+            Array.from(enemySelecteds).forEach(enemySelected => {
+                enemySelected.classList.add('enemyBlocked');
+                enemySelected.classList.remove('enemySelected');
+            });
 
-                round = Number(targetRound.id.slice(-1));
-                const blockeds = document.getElementsByClassName("blocked");
-                
-                Array.from(blockeds).forEach(blocked => {
-                    for (let i = 0; i < 5; i++) {
-                        if (selectedChars[target][round][i] && blocked.classList[1] === selectedChars[target][round][i].classList[1]) {
-                            blocked.classList.add('selected');
-                            blocked.classList.remove('blocked');                            
-                        };
-                    };
-                });           
+            round = Number(targetRound.id.slice(-1));
+
+            const blockeds = document.getElementsByClassName("blocked");
+            Array.from(blockeds).forEach(blocked => {
+                for (let i = 0; i < 5; i++) {
+                    if (selectedChars[target][round][i] && blocked.classList[1] === selectedChars[target][round][i].classList[1]) {
+                        blocked.classList.add('selected');
+                        blocked.classList.remove('blocked');                            
+                    }
+                    ;
+                };
+            });
+
+            const enemyblockeds = document.getElementsByClassName("enemyBlocked");
+            Array.from(enemyblockeds).forEach(enemyblocked => {
+                for (let i = 0; i < 5; i++) {
+                    if (selectedChars[1-target][round][i] && enemyblocked.classList[1] === selectedChars[1-target][round][i].classList[1]) {
+                        enemyblocked.classList.add('enemySelected');
+                        enemyblocked.classList.remove('enemyBlocked');                            
+                    }
+                    ;
+                };
+            });
+            
             showTargetArea(target, round);
         });        
     });
@@ -1279,6 +1297,21 @@
             enemySet = 1;
         }
         target = 1-target;
+        chars.forEach(char => {
+            if (char.classList[5] == 'blocked') {
+                char.classList.remove('blocked');
+                char.classList.add('enemyBlocked');
+            } else if (char.classList[5] == 'enemyBlocked'){
+                char.classList.remove('enemyBlocked');
+                char.classList.add('blocked');
+            } else if (char.classList[5] == 'selected') {
+                char.classList.remove('selected');
+                char.classList.add('enemySelected');
+            } else if (char.classList[5] == 'enemySelected') {
+                char.classList.remove('enemySelected');
+                char.classList.add('selected');
+            }
+        })
         showTargetArea(target, round);        
     });
 
@@ -1293,7 +1326,7 @@
         char.addEventListener('click', () => {
             let index = selectedChars[target][round].indexOf(char);
             
-            if (char.classList[5] != 'blocked') {
+            if (char.classList[5] != `blocked`) {
                 if (index !== -1) {
                     // 如果已選取，則取消選取
                     char.classList.remove(`selected`);
