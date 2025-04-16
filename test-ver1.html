@@ -890,6 +890,9 @@
             
             item.innerHTML = `
             <div class="selectedCover">
+                <p>round</p>
+                <p class="blockRound"></p>
+                <p class="enemyBlockRound" style="display: none"></p>
             </div>
             <div class="itemhover">
             </div>
@@ -1271,12 +1274,11 @@
                     ;
                 };
             });
-            
+           
             showTargetArea(target, round);
         });        
     });
 
-    console.log(selectedChars[target].every(element => element === null));
     
     //切換target
     
@@ -1298,20 +1300,43 @@
         }
         target = 1-target;
         chars.forEach(char => {
-            if (char.classList[5] == 'blocked') {
-                char.classList.remove('blocked');
-                char.classList.add('enemyBlocked');
-            } else if (char.classList[5] == 'enemyBlocked'){
-                char.classList.remove('enemyBlocked');
-                char.classList.add('blocked');
-            } else if (char.classList[5] == 'selected') {
-                char.classList.remove('selected');
+            const blockRound = char.querySelector('.blockRound');
+            const enemyBlockRound = char.querySelector('.enemyBlockRound');            
+            if (blockRound || enemyBlockRound) {
+                let nowRound = blockRound.textContent;
+                let enemyRound = enemyBlockRound.textContent;
+                blockRound.textContent = enemyRound;
+                enemyBlockRound.textContent = nowRound;                         
+            }
+            const statusMenu = ['selected', 'blocked', 'enemySelected', 'enemyBlocked']
+            const status = [0, 0, 0, 0];
+            
+            if (char.classList.contains('selected')) {
+                status[0] = 1;
+            }            
+            if (char.classList.contains('blocked')) {
+                status[1] = 1;
+            }
+            if (char.classList.contains('enemySelected')) {
+                status[2] = 1;
+            }
+            if (char.classList.contains('enemyBlocked')){
+                status[3] = 1;
+            }
+            char.classList.remove('selected', 'blocked', 'enemySelected', 'enemyBlocked');
+            if (status[0] == 1) {
                 char.classList.add('enemySelected');
-            } else if (char.classList[5] == 'enemySelected') {
-                char.classList.remove('enemySelected');
+            }
+            if (status[1] == 1) {
+                char.classList.add('enemyBlocked');
+            }
+            if (status[2] == 1) {
                 char.classList.add('selected');
             }
-        })
+            if (status[3] == 1) {
+                char.classList.add('blocked');
+            }                       
+        });
         showTargetArea(target, round);        
     });
 
@@ -1326,7 +1351,7 @@
         char.addEventListener('click', () => {
             let index = selectedChars[target][round].indexOf(char);
             
-            if (char.classList[5] != `blocked`) {
+            if (char.classList[char.classList.length - 1] != `blocked`) {
                 if (index !== -1) {
                     // 如果已選取，則取消選取
                     char.classList.remove(`selected`);
@@ -1347,10 +1372,10 @@
                         if (selectedChars[target][round].filter(item => item !== null).length < 5) {
                             selectedChars[target][round][emptyIndex] = char;
                             char.classList.add(`selected`);
-                            const selectedCover = char.querySelector(`.selectedCover`);                        
+                            const blockRound = char.querySelector(`.blockRound`);                        
                             let showRound = round;
                             showRound += 1;
-                            selectedCover.innerHTML =`<p>round</p><p class="blockRound">0${showRound}</p>`;
+                            blockRound.textContent = `0${showRound}`;
                             const clonedchar = char.cloneNode(true);                        
 
                             character.forEach((subArray) => {
